@@ -4,7 +4,8 @@ renderChrome("loan.html");
 
 // 第 5、6 檔（台股 ETF 連結）為 RR4，其餘為 RR3
 const RR4 = new Set(["tw50", "twhdlv"]);
-const DEFAULTS = { c3: 120, l3: 110, c4: 130, l4: 120, ltv: 70, loan: 0, rate: 2.5, loss: 0, fx: 0, basis: 5 };
+// 門檻依銀行通知表：a＝接近補倉、c＝補倉通知、l＝平倉通知；3＝7＜X≦8 成（RR1～RR3）、4＝6＜X≦7 成（RR4 以上）
+const DEFAULTS = { a3: 122, c3: 120, l3: 110, a4: 140, c4: 130, l4: 120, ltv: 70, loan: 0, rate: 2.5, loss: 0, fx: 0, basis: 5 };
 const SAMPLE = { hold: { franklin: 150, schroder: 100, gaf: 150, janus: 150, tw50: 200, twhdlv: 100, leaders: 50, sgehi: 100 }, loan: 500, rate: 2.5 };
 const STORE = "fund-loan-v1";
 
@@ -38,7 +39,7 @@ document.getElementById("hold-body").innerHTML = FUNDS.map(f => `<tr>
 </tr>`).join("");
 
 const $ = id => document.getElementById(id);
-for (const k of ["loan", "rate", "ltv", "c3", "l3", "c4", "l4"]) $(k).value = st[k];
+for (const k of ["loan", "rate", "ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
 $("lossR").value = $("lossN").value = st.loss;
 $("fxR").value = $("fxN").value = st.fx;
 document.querySelectorAll("[data-basis]").forEach(b => b.classList.toggle("on", +b.dataset.basis === st.basis));
@@ -47,7 +48,7 @@ document.addEventListener("input", e => {
   const t = e.target;
   if (t.dataset.hold) st.hold[t.dataset.hold] = Math.max(0, +t.value || 0);
   else if (t.dataset.exp) st.exp[t.dataset.exp] = +t.value || 0;
-  else if (["loan", "rate", "ltv", "c3", "l3", "c4", "l4"].includes(t.id)) st[t.id] = +t.value || 0;
+  else if (["loan", "rate", "ltv", "a3", "c3", "l3", "a4", "c4", "l4"].includes(t.id)) st[t.id] = +t.value || 0;
   else if (t.id === "lossR" || t.id === "lossN") { st.loss = Math.min(100, Math.max(0, +t.value || 0)); $(t.id === "lossR" ? "lossN" : "lossR").value = st.loss; }
   else if (t.id === "fxR" || t.id === "fxN") { st.fx = Math.min(100, Math.max(0, +t.value || 0)); $(t.id === "fxR" ? "fxN" : "fxR").value = st.fx; }
   else return;
@@ -62,7 +63,7 @@ document.querySelectorAll("[data-basis]").forEach(b => b.addEventListener("click
 $("reset").addEventListener("click", () => {
   Object.assign(st, { ...DEFAULTS, hold: {}, exp: {} });
   document.querySelectorAll("[data-hold]").forEach(i => { i.value = ""; });
-  for (const k of ["loan", "rate", "ltv", "c3", "l3", "c4", "l4"]) $(k).value = st[k];
+  for (const k of ["loan", "rate", "ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
   $("lossR").value = $("lossN").value = $("fxR").value = $("fxN").value = 0;
   FUNDS.forEach(f => { document.querySelector(`[data-exp="${f.key}"]`).value = expOf(f); });
   save(); render();
@@ -83,14 +84,16 @@ function scenario(loss, fx) {
     A += v; if (RR4.has(f.key)) A4 += v;
   }
   const w4 = A > 0 ? A4 / A : 0;
+  const warn = ((1 - w4) * st.a3 + w4 * st.a4) / 100;
   const call = ((1 - w4) * st.c3 + w4 * st.c4) / 100;
   const liq = ((1 - w4) * st.l3 + w4 * st.l4) / 100;
   const L = st.loan;
-  return { A, w4, call, liq, ratio: L > 0 ? A / L : Infinity, avail: A * st.ltv / 100 - L };
+  return { A, w4, warn, call, liq, ratio: L > 0 ? A / L : Infinity, avail: A * st.ltv / 100 - L };
 }
 function status(s) {
   if (s.ratio < s.liq) return { k: "liq", t: "✕ 平倉通知" };
   if (s.ratio < s.call) return { k: "call", t: "⚠ 補倉通知" };
+  if (s.ratio < s.warn) return { k: "warn", t: "◐ 接近補倉" };
   return { k: "ok", t: "✓ 正常" };
 }
 // 找出跌多少會碰到門檻：test(x) 由 false 變 true 的最小 x（二分搜尋）
@@ -111,13 +114,15 @@ function gaugeHtml(s) {
   return `<div class="gauge">
     <div class="zone liq" style="width:${pos(s.liq)}%"></div>
     <div class="zone call" style="left:${pos(s.liq)}%;width:${pos(s.call) - pos(s.liq)}%"></div>
-    <div class="zone ok" style="left:${pos(s.call)}%;right:0"></div>
+    <div class="zone warn" style="left:${pos(s.call)}%;width:${pos(s.warn) - pos(s.call)}%"></div>
+    <div class="zone ok" style="left:${pos(s.warn)}%;right:0"></div>
     <div class="line" style="left:${pos(s.liq)}%" data-tip="平倉通知線 ${p1(s.liq)}"></div>
     <div class="line" style="left:${pos(s.call)}%" data-tip="補倉通知線 ${p1(s.call)}"></div>
+    <div class="line" style="left:${pos(s.warn)}%" data-tip="接近補倉水準 ${p1(s.warn)}"></div>
     <div class="marker" style="left:${pos(r)}%"><b>${isFinite(s.ratio) ? p1(s.ratio) : "無借款"}</b></div>
   </div>
   <div class="gauge-ticks">${ticks.join("")}</div>
-  <div class="legend" style="margin-top:6px"><span><i style="background:var(--liq-bg)"></i>平倉區（＜${p1(s.liq)}）</span><span><i style="background:var(--call-bg)"></i>補倉區（${p1(s.liq)}～${p1(s.call)}）</span><span><i style="background:var(--ok-bg)"></i>正常（≧${p1(s.call)}）</span></div>`;
+  <div class="legend" style="margin-top:6px"><span><i style="background:var(--liq-bg)"></i>平倉區（＜${p1(s.liq)}）</span><span><i style="background:var(--call-bg)"></i>補倉區（${p1(s.liq)}～${p1(s.call)}）</span><span><i style="background:var(--warn-bg)"></i>接近補倉（${p1(s.call)}～${p1(s.warn)}）</span><span><i style="background:var(--ok-bg)"></i>正常（≧${p1(s.warn)}）</span></div>`;
 }
 const tile = (k, v, sub = "", cls = "") => `<div class="tile ${cls}"><span class="k">${k}</span><span class="v">${v}</span>${sub ? `<span class="s">${sub}</span>` : ""}</div>`;
 
@@ -139,6 +144,7 @@ function render() {
     tile("組合總市值", wan(total), `其中美元基金 ${total ? p1(usd / total) : "—"}`) +
     tile("借款金額", wan(L), `年利率 ${st.rate}%`) +
     tile("目前維持率", L > 0 ? p1(s0.ratio) : "無借款", stt.t, "st-" + stt.k) +
+    tile("加權接近補倉水準", "＜ " + p1(s0.warn), "將屆通知客戶") +
     tile("加權補倉通知線", "＜ " + p1(s0.call), `RR4 占 ${p1(s0.w4)}`) +
     tile("加權平倉通知線", "＜ " + p1(s0.liq), `RR3 占 ${p1(1 - s0.w4)}`) +
     tile("可借額度上限", wan(maxLoan), `組合淨值 × ${st.ltv}%`) +
@@ -147,6 +153,7 @@ function render() {
 
   // 可承受跌幅
   const rows = [
+    ["接近補倉水準", x => scenario(x, 0), y => scenario(0, y), s => s.ratio < s.warn],
     ["補倉通知", x => scenario(x, 0), y => scenario(0, y), s => s.ratio < s.call],
     ["平倉通知", x => scenario(x, 0), y => scenario(0, y), s => s.ratio < s.liq],
     ["可借額度歸零", x => scenario(x, 0), y => scenario(0, y), s => s.avail <= 0],
@@ -165,7 +172,8 @@ function render() {
   $("scn-kpis").innerHTML =
     tile("虧損後組合市值", wan(s1.A), `減少 ${wan(total - s1.A)}（${total ? p1(1 - s1.A / total) : "—"}）`) +
     tile("虧損後維持率", L > 0 ? p1(s1.ratio) : "無借款", st1.t, "st-" + st1.k) +
-    tile("距補倉線", L > 0 ? (s1.ratio >= s1.call ? "還可跌 " + wan(s1.A - s1.call * L) : "需補 " + wan(s1.call * L - s1.A)) : "—", `補倉線 ${p1(s1.call)}`) +
+    tile("距接近補倉", L > 0 ? (s1.ratio >= s1.warn ? "還可跌 " + wan(s1.A - s1.warn * L) : "已低於 " + wan(s1.warn * L - s1.A)) : "—", `接近補倉 ${p1(s1.warn)}`) +
+    tile("距補倉線", L > 0 ? (s1.ratio >= s1.call ? "還可跌 " + wan(s1.A - s1.call * L) : "已低於 " + wan(s1.call * L - s1.A)) : "—", `補倉線 ${p1(s1.call)}`) +
     tile("距平倉線", L > 0 ? (s1.ratio >= s1.liq ? "還可跌 " + wan(s1.A - s1.liq * L) : "低於 " + wan(s1.liq * L - s1.A)) : "—", `平倉線 ${p1(s1.liq)}`) +
     tile("剩餘可借額度", wan(Math.max(0, s1.avail)), s1.avail < 0 ? `超借 ${wan(-s1.avail)}` : "");
   $("scn-gauge").innerHTML = L > 0 ? gaugeHtml(s1) : "";
@@ -242,7 +250,7 @@ function renderMix(total) {
   const creditItems = Object.entries(credit).map(([k, o]) => [k, o.v, Object.entries(o.by).map(([n, v]) => `${n}：${v.toFixed(2)}%`).join("<br>")]).sort((a, b) => b[1] - a[1]);
   const bondTotal = creditItems.reduce((s, x) => s + x[1], 0);
   $("mix-credit").innerHTML = barList(creditItems, k => /非投資/.test(k) ? cssVar("--s2") : /未/.test(k) ? "#8f9ba1" : cssVar("--s1"), v => v.toFixed(1) + "%") +
-    `<p class="src">占整個組合比例；債券合計 ${bondTotal.toFixed(1)}%。換算成債券部位 = 100%：${creditItems.map(([k, v]) => `${k} ${bondTotal ? (v / bondTotal * 100).toFixed(0) : 0}%`).join("、")}。施羅德與貝萊德環球資產配置月報未揭露信評。滑過可看來自哪幾檔。</p>`;
+    `<p class="src">占整個組合比例；債券合計 ${bondTotal.toFixed(1)}%。換算成債券部位 = 100%：${creditItems.map(([k, v]) => `${k} ${bondTotal ? (v / bondTotal * 100).toFixed(0) : 0}%`).join("、")}。滑過可看來自哪幾檔。</p><p class="caveat">施羅德與貝萊德環球資產配置月報未揭露信評，列為「未揭露信評」；富蘭克林只揭露債券類別，非投資等級公司債以外都歸為投資等級；元大全球優質龍頭依持債內容判斷為投資等級。</p>`;
 
   // 產業：各基金股票部位 × 產業比重
   const sec = {}; let eq = 0;

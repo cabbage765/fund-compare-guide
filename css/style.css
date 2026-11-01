@@ -231,3 +231,15 @@ td.st-liq { color: var(--status-liq); font-weight: 700; }
 .inline-bar span { position: absolute; left: 6px; top: 0; font-size: .8rem; line-height: 20px; font-weight: 600; }
 .src-chip { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--c); color: #fff; font-size: .75rem; font-weight: 700; margin-right: 3px; }
 .stack { display: flex; height: 28px; border-radius: 4px; overflow: hidden; gap: 2px; }
+:root { --warn-bg: rgba(237,161,0,.13); --status-warn: #7a6a1f; }
+@media (prefers-color-scheme: dark) { :root { --warn-bg: rgba(201,133,0,.16); --status-warn: #d9c27a; } }
+.gauge .zone.warn { background: var(--warn-bg); }
+#grid td.cell-warn { background: var(--warn-bg); }
+.tile.st-warn { border-left: 5px solid var(--status-warn); }
+.tile.st-warn .s { color: var(--status-warn); font-weight: 700; }
+/* 限制與誤差註記：小字、不干擾主要內容 */
+.caveat { font-size: .74rem; line-height: 1.55; color: var(--muted); margin: 6px 0 0; opacity: .9; }
+.caveat::before { content: "ⓘ "; }
+ul.caveat { padding-left: 1.2em; }
+ul.caveat::before { content: none; }
+ul.caveat li::marker { content: "ⓘ  "; }
