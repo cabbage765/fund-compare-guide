@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>八檔基金比較</title>
+  <meta name="description" content="富蘭克林穩定月收益、施羅德環球收益成長、貝萊德環球資產配置、駿利亨德森平衡、元大台灣50連結、元大高股息低波動連結、元大全球優質龍頭平衡、貝萊德全球智慧數據股票入息：報酬、波動、Sharpe、回撤、費用、配置與重疊曝險比較。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="八檔基金比較：報酬、風險、費用與重疊曝險">
+  <meta property="og:description" content="以原幣累積型（不配息）級別比較 8 檔台灣常見基金的 1／3／5／10 年報酬、波動、Sharpe、最大回撤、內扣費用、股債比、信評、產業、國家與持股重疊。">
+  <meta property="og:url" content="https://cabbage765.github.io/fund-compare-guide/">
+  <meta property="og:locale" content="zh_TW">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>八檔基金，一頁看懂差在哪裡</h1>
+      <p>四檔境外股債混合、兩檔元大 ETF 連結、一檔境內全球平衡、一檔全球股票收益基金。全部採<strong>原幣、不配息的累積型級別</strong>，用同一套方法計算報酬、波動、Sharpe 與回撤，並整理各基金最新月報的費用、配置與持股。點任一基金可看個別介紹。</p>
+      <div class="toc">
+        <a href="#funds">基金一覽</a><a href="#perf">報酬／波動／Sharpe</a><a href="#nav">淨值走勢</a>
+        <a href="#mdd">最大回撤</a><a href="#cal">曆年報酬</a><a href="#fee">內扣費用</a><a href="#alloc">股債比</a>
+        <a href="#credit">債券評等</a><a href="#sector">產業分布</a><a href="#country">國家分布</a><a href="#overlap">重疊曝險矩陣</a>
+      </div>
+    </div>
+
+    <section id="funds">
+      <h2>基金一覽</h2>
+      <p class="lead">卡片上方色條是該基金在全站圖表中的固定顏色。數字為近 3 年（成立未滿 3 年者為近 1 年）。</p>
+      <div class="grid" id="cards"></div>
+    </section>
+
+    <section id="perf">
+      <h2>報酬、波動與 Sharpe Ratio</h2>
+      <p class="lead">年化報酬＝期末淨值 ÷ 期初淨值後年化；年化波動＝日報酬標準差 × √(每年交易日數)；Sharpe＝（年化報酬 − 無風險利率）÷ 年化波動。美元基金以美國 3 個月國庫券、台幣基金以台銀一年期定存為無風險利率。</p>
+      <div class="filters" id="period-chips"><span class="label">期間</span></div>
+      <div class="charts-3">
+        <div class="panel"><h3>年化報酬率</h3><div class="chart-box short"><canvas id="c-ret"></canvas></div></div>
+        <div class="panel"><h3>年化波動率</h3><div class="chart-box short"><canvas id="c-vol"></canvas></div></div>
+        <div class="panel"><h3>Sharpe Ratio</h3><div class="chart-box short"><canvas id="c-sharpe"></canvas></div></div>
+      </div>
+      <p class="note" id="perf-missing"></p>
+      <h3 style="margin-top:20px">完整數據表</h3>
+      <div class="table-scroll"><table id="perf-table"></table></div>
+      <p class="note">▲ 表示該欄最佳（報酬與 Sharpe 取最高、波動取最低）。點欄位標題可排序。「—」表示成立時間不足。</p>
+    </section>
+
+    <section id="nav">
+      <h2>淨值走勢（期初 = 100）</h2>
+      <p class="lead">以每週最後一個交易日淨值繪製；只顯示在該期間有完整資料的基金。美元基金與台幣基金各以原幣計算，未換匯。</p>
+      <div class="filters" id="nav-chips"><span class="label">期間</span></div>
+      <div class="filters" id="nav-funds"></div>
+      <div class="panel"><div class="chart-box tall"><canvas id="c-nav"></canvas></div></div>
+    </section>
+
+    <section id="mdd">
+      <h2>最大回撤</h2>
+      <p class="lead">從前波高點到之後最低點的最大跌幅。「成立以來」以可取得的淨值資料起算（各基金資料起點見表）。</p>
+      <div class="table-scroll"><table id="mdd-table"></table></div>
+      <div class="panel" style="margin-top:14px">
+        <h3>近 3 年水下圖（距前波高點的跌幅）</h3>
+        <div class="filters" id="uw-funds"></div>
+        <div class="chart-box"><canvas id="c-uw"></canvas></div>
+      </div>
+    </section>
+
+    <section id="cal">
+      <h2>曆年報酬</h2>
+      <p class="lead">藍色越深代表漲越多、橘色越深代表跌越多。2026 年為年初至 10/30。</p>
+      <div class="table-scroll"><table id="cal-table"></table></div>
+    </section>
+
+    <section id="fee">
+      <h2>內扣費用比例</h2>
+      <p class="lead">境外基金採官方「經常性費用（OCF）」；境內基金採基金公司公告的年度費用率。ETF 連結基金另加上母 ETF 的總管理費用，才是投資人實際負擔的整體內扣。</p>
+      <div class="charts-2">
+        <div class="panel"><div class="chart-box short"><canvas id="c-fee"></canvas></div></div>
+        <div class="panel"><div class="table-scroll" style="box-shadow:none;border:0"><table id="fee-table"></table></div></div>
+      </div>
+    </section>
+
+    <section id="alloc">
+      <h2>股債比分配</h2>
+      <p class="lead">依各基金最新月報的資產類別；可轉債與股票連結票據兼具股債性質，獨立列出。</p>
+      <div class="panel"><div class="legend" id="alloc-legend"></div><div class="stack-list" id="alloc-list"></div></div>
+    </section>
+
+    <section id="credit">
+      <h2>持有債券評等比例</h2>
+      <p class="lead">數字為占「全基金」比例。各基金揭露方式不同：駿利有逐級信評，富蘭克林只揭露債券類別，施羅德與貝萊德環球資產配置的月報未揭露信評。</p>
+      <div class="grid" id="credit-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))"></div>
+    </section>
+
+    <section id="sector">
+      <h2>持有資產產業分布</h2>
+      <p class="lead">以 Morningstar 產業分類、換算為「股票部位 = 100%」，方便比較不同股票比重的基金。顏色越深比重越高。</p>
+      <div class="table-scroll"><table id="sector-table" class="matrix"></table></div>
+    </section>
+
+    <section id="country">
+      <h2>持有資產國家比例</h2>
+      <p class="lead">貝萊德全球智慧數據與元大全球優質龍頭為基金公司公布的國家別；其餘境外基金為 Morningstar 區域分類（如「歐元區」、「已開發亞洲」）。ETF 連結基金為透視母 ETF 後的結果。</p>
+      <div class="panel"><div class="legend" id="country-legend"></div><div class="stack-list" id="country-list"></div></div>
+      <p class="note" id="country-src"></p>
+    </section>
+
+    <section id="overlap">
+      <h2>重疊曝險矩陣</h2>
+      <p class="lead">兩種角度看「買了兩檔，是不是其實在買同一批東西」。</p>
+      <div class="filters" id="ov-chips"></div>
+      <div class="table-scroll"><table id="ov-table" class="matrix"></table></div>
+      <p class="note" id="ov-note"></p>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <div id="tip"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="js/data.js?v=1"></script>
+  <script src="js/series.js?v=1"></script>
+  <script src="js/common.js?v=1"></script>
+  <script src="js/index.js?v=1"></script>
+</body>
+</html>
