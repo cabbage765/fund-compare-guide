@@ -177,3 +177,57 @@ td.heat { color: var(--text); }
 .method li { margin-bottom: 6px; }
 
 #site-footer { margin-top: 48px; padding: 24px 0 36px; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+
+/* 質押試算 */
+:root { --ok-bg: rgba(42,120,214,.16); --call-bg: rgba(237,161,0,.32); --liq-bg: rgba(227,73,72,.32); --status-call: #9a6400; --status-liq: #c0302f; --status-ok: #1f6fb8; }
+@media (prefers-color-scheme: dark) { :root { --ok-bg: rgba(57,135,229,.22); --call-bg: rgba(201,133,0,.35); --liq-bg: rgba(230,103,103,.35); --status-call: #f0b84a; --status-liq: #f08a8a; --status-ok: #7db3f0; } }
+input[type=number] {
+  font: inherit; color: var(--text); background: var(--bg); border: 1.5px solid var(--line); border-radius: 8px;
+  padding: 5px 8px; width: 110px; text-align: right;
+}
+input[type=number]:focus { outline: none; border-color: var(--accent); }
+.input-table td { vertical-align: middle; }
+.input-table tfoot td { font-weight: 600; background: var(--accent-soft); }
+.badge.rr4 { background: var(--warm-soft); color: var(--warm); }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 14px 0; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: .88rem; color: var(--muted); }
+.field input { width: 100%; text-align: left; font-size: 1.05rem; padding: 8px 10px; }
+.field.btns { flex-direction: row; align-items: flex-end; gap: 8px; }
+.settings summary { cursor: pointer; }
+.settings input[type=number] { width: 80px; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+.tile .k { font-size: .78rem; color: var(--muted); }
+.tile .v { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: .78rem; color: var(--muted); }
+.tile.st-ok { border-left: 5px solid var(--status-ok); }
+.tile.st-call { border-left: 5px solid var(--status-call); }
+.tile.st-call .s { color: var(--status-call); font-weight: 700; }
+.tile.st-liq { border-left: 5px solid var(--status-liq); }
+.tile.st-liq .s { color: var(--status-liq); font-weight: 700; }
+.tile.st-ok .s { color: var(--status-ok); font-weight: 600; }
+td.st-liq { color: var(--status-liq); font-weight: 700; }
+.gauge { position: relative; height: 34px; border-radius: 6px; overflow: visible; margin-top: 28px; }
+.gauge .zone { position: absolute; top: 0; bottom: 0; }
+.gauge .zone.liq { left: 0; background: var(--liq-bg); border-radius: 6px 0 0 6px; }
+.gauge .zone.call { background: var(--call-bg); }
+.gauge .zone.ok { background: var(--ok-bg); border-radius: 0 6px 6px 0; }
+.gauge .line { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--text); opacity: .55; }
+.gauge .marker { position: absolute; top: -6px; bottom: -6px; width: 4px; margin-left: -2px; background: var(--text); border-radius: 2px; }
+.gauge .marker b { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .85rem; padding-bottom: 2px; }
+.gauge-ticks { position: relative; height: 18px; font-size: .72rem; color: var(--muted); }
+.gauge-ticks span { position: absolute; transform: translateX(-50%); }
+.slider-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 12px; align-items: center; margin-bottom: 8px; }
+.slider-row label { font-weight: 600; }
+.slider-row input[type=range] { width: 100%; accent-color: var(--accent); }
+.slider-row input[type=number] { width: 80px; }
+#grid td { font-variant-numeric: tabular-nums; }
+#grid td.cell-ok { background: var(--ok-bg); }
+#grid td.cell-call { background: var(--call-bg); }
+#grid td.cell-liq { background: var(--liq-bg); font-weight: 600; }
+#grid td.cur { outline: 2.5px solid var(--text); outline-offset: -3px; }
+.inline-bar { position: relative; width: 220px; height: 20px; background: var(--bg); border-radius: 4px; }
+.inline-bar div { height: 100%; background: var(--s1); border-radius: 0 4px 4px 0; opacity: .75; }
+.inline-bar span { position: absolute; left: 6px; top: 0; font-size: .8rem; line-height: 20px; font-weight: 600; }
+.src-chip { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--c); color: #fff; font-size: .75rem; font-weight: 700; margin-right: 3px; }
+.stack { display: flex; height: 28px; border-radius: 4px; overflow: hidden; gap: 2px; }

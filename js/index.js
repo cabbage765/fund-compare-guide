@@ -266,13 +266,7 @@ drawUw();
 
 // ---------- 國家分布 ----------
 (() => {
-  const groups = [["美國", "--s1"], ["台灣", "--s8"], ["日本", "--s5"], ["韓國", "--s2"], ["中國", "--s6"], ["加拿大", "--s4"], ["歐洲（含英國）", "--s3"], ["已開發亞洲（未細分）", "--s7"]];
-  const toGroup = k => {
-    if (["美國", "台灣", "日本", "韓國", "中國", "加拿大"].includes(k)) return k;
-    if (/歐|英國|荷蘭|義大利/.test(k)) return "歐洲（含英國）";
-    if (k === "已開發亞洲") return "已開發亞洲（未細分）";
-    return "其他／現金";
-  };
+  const groups = COUNTRY_GROUPS, toGroup = countryGroup;
   const pal = Object.fromEntries(groups.map(([k, v]) => [k, cssVar(v)]));
   pal["其他／現金"] = "#b9c2c6"; pal._ = ["#b9c2c6"];
   document.getElementById("country-legend").innerHTML = groups.map(([k, v]) => `<span><i style="background:${cssVar(v)}"></i>${k}</span>`).join("") + `<span><i style="background:#b9c2c6"></i>其他／現金</span>`;
@@ -286,8 +280,6 @@ drawUw();
 })();
 
 // ---------- 重疊曝險矩陣 ----------
-const ALIAS = { "GNMA 房貸債": "美國機構房貸債", "機構房貸債": "美國機構房貸債", "Kinder Morgan（債）": "Kinder Morgan", "American Express（債）": "American Express", "緯穎（可轉債）": "緯穎" };
-const issuer = k => ALIAS[k] || k;
 function overlap(a, b) {
   const ma = {}, mb = {};
   a.holdings.forEach(([k, v]) => { ma[issuer(k)] = (ma[issuer(k)] || 0) + v; });

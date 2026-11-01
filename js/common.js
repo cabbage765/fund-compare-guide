@@ -30,6 +30,19 @@ function money(aum, cur) {
   return `${Math.round(aum / 1e8).toLocaleString()} 億美元`;
 }
 
+// 不同基金對同一發行人的寫法不同，統一後才能合併計算
+const ALIAS = { "GNMA 房貸債": "美國機構房貸債", "機構房貸債": "美國機構房貸債", "Kinder Morgan（債）": "Kinder Morgan", "American Express（債）": "American Express", "緯穎（可轉債）": "緯穎" };
+const issuer = k => ALIAS[k] || k;
+
+// 國家／地區分類不一（有國家別也有 Morningstar 區域），合併成同一組類別
+const COUNTRY_GROUPS = [["美國", "--s1"], ["台灣", "--s8"], ["日本", "--s5"], ["韓國", "--s2"], ["中國", "--s6"], ["加拿大", "--s4"], ["歐洲（含英國）", "--s3"], ["已開發亞洲（未細分）", "--s7"]];
+function countryGroup(k) {
+  if (["美國", "台灣", "日本", "韓國", "中國", "加拿大"].includes(k)) return k;
+  if (/歐|英國|荷蘭|義大利/.test(k)) return "歐洲（含英國）";
+  if (k === "已開發亞洲") return "已開發亞洲（未細分）";
+  return "其他／現金";
+}
+
 function fundLink(f, label) {
   return `<a href="fund.html?id=${f.key}"><span class="dot" style="--c:${color(f)}"></span>${label || f.short}</a>`;
 }
@@ -88,6 +101,7 @@ function renderChrome(active) {
   const links = [
     ["index.html", "總覽比較"],
     ["funds.html", "個別基金"],
+    ["loan.html", "質押借款試算"],
     ["method.html", "計算方式與資料來源"],
   ];
   document.getElementById("site-header").innerHTML = `
@@ -100,7 +114,7 @@ function renderChrome(active) {
     <div class="wrap">
       <p>淨值資料計算至 2026/10/30（元大全球優質龍頭平衡為 10/29），持股、配置與費用取自各基金 2026 年 8–9 月月報。
       報酬以原幣計算（美元或新台幣），未扣申購手續費與信託管理費。</p>
-      <p>本站為個人整理的比較資料，不構成投資建議；投資前請詳閱各基金公開說明書與投資人須知，並以基金公司最新公告為準。</p>
+      <p>質押試算的補倉／平倉門檻請以借款銀行實際規定為準。本站為個人整理的比較資料，不構成投資建議；投資前請詳閱各基金公開說明書與投資人須知，並以基金公司最新公告為準。</p>
     </div>`;
   initTips();
   chartDefaults();

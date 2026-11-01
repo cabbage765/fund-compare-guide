@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>質押借款試算｜八檔基金比較</title>
+  <meta name="description" content="輸入八檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>基金質押借款試算</h1>
+      <p>輸入各基金持有市值與借款條件，即時算出維持率、加權補倉／平倉線、資產還能跌多少，以及整個組合的資產透視。所有數字只存在你的瀏覽器裡，不會上傳。</p>
+      <div class="toc">
+        <a href="#input">輸入持有與借款</a><a href="#risk">維持率與可承受跌幅</a><a href="#scenario">虧損情境試算</a>
+        <a href="#income">預期收益與利息</a><a href="#mix">組合資產透視</a><a href="#top20">前二十大持股</a>
+      </div>
+    </div>
+
+    <section id="input">
+      <h2>1. 輸入持有與借款</h2>
+      <p class="lead">金額單位為<strong>新台幣萬元</strong>。外幣基金請以目前新台幣市值輸入。預期年報酬預設帶入歷史年化報酬，可直接改寫。</p>
+      <div class="table-scroll">
+        <table class="input-table">
+          <thead><tr><th>基金</th><th>風險等級</th><th>計價</th><th>持有市值（萬元）</th><th>占比</th><th>預期年報酬（%）</th></tr></thead>
+          <tbody id="hold-body"></tbody>
+          <tfoot><tr><td><b>合計</b></td><td></td><td></td><td id="sum-cell"></td><td>100%</td><td id="exp-cell"></td></tr></tfoot>
+        </table>
+      </div>
+      <div class="filters" style="margin-top:10px">
+        <span class="label">預期報酬帶入</span>
+        <button class="chip" data-basis="1">近 1 年年化</button>
+        <button class="chip" data-basis="3">近 3 年年化</button>
+        <button class="chip on" data-basis="5">近 5 年年化</button>
+        <button class="chip" data-basis="10">近 10 年年化</button>
+        <span class="note">成立時間不足的基金改用可取得的最長期間。</span>
+      </div>
+
+      <div class="form-grid">
+        <label class="field"><span>目前借款金額（萬元）</span><input type="number" id="loan" min="0" step="1"></label>
+        <label class="field"><span>借款年利率（%）</span><input type="number" id="rate" min="0" step="0.01"></label>
+        <label class="field"><span>可借成數上限（占組合淨值 %）</span><input type="number" id="ltv" min="0" max="100" step="1"></label>
+        <div class="field btns"><button class="chip" id="reset">清空重填</button><button class="chip" id="sample">帶入範例</button></div>
+      </div>
+
+      <details class="panel settings" id="settings">
+        <summary><b>維持率門檻設定</b>（依銀行補倉／平倉通知表，可修改）</summary>
+        <div class="table-scroll" style="box-shadow:none;margin-top:10px">
+          <table>
+            <thead><tr><th>借貸成數組別</th><th>適用基金</th><th>補倉通知（維持率低於）</th><th>平倉通知（維持率低於）</th></tr></thead>
+            <tbody>
+              <tr><td>7 ＜ X ≦ 8 成</td><td style="text-align:left">RR1～RR3（第 1、2、3、4、7、8 檔）</td><td><input type="number" id="c3" step="1"> %</td><td><input type="number" id="l3" step="1"> %</td></tr>
+              <tr><td>6 ＜ X ≦ 7 成</td><td style="text-align:left">RR4 以上（第 5、6 檔）</td><td><input type="number" id="c4" step="1"> %</td><td><input type="number" id="l4" step="1"> %</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">預設值為 120%／110% 與 130%／120%：RR3、RR4 各半時加權為 125%／115%，與題目範例一致。請以你的銀行實際通知表為準。</p>
+      </details>
+    </section>
+
+    <section id="risk">
+      <h2>2. 維持率與可承受跌幅</h2>
+      <p class="lead">維持率 ＝ 擔保基金市值 ÷ 借款金額。補倉、平倉門檻依 RR3 與 RR4 基金的市值比例加權。</p>
+      <div class="kpi-row" id="kpis"></div>
+      <div class="panel" style="margin-top:14px">
+        <h3>維持率位置</h3>
+        <div id="gauge"></div>
+      </div>
+      <div class="table-scroll" style="margin-top:14px"><table id="drop-table"></table></div>
+      <p class="note">「全部資產同步下跌」假設八檔一起跌同樣比例；「只有匯率下跌」假設基金原幣淨值不變，只有美元計價基金（第 1、2、3、4、8 檔）因新台幣升值而縮水。</p>
+    </section>
+
+    <section id="scenario">
+      <h2>3. 虧損情境試算</h2>
+      <p class="lead">拉動或直接輸入：資產虧損套用到全部基金，匯率虧損只套用到美元計價基金（兩者相乘）。</p>
+      <div class="panel">
+        <div class="slider-row">
+          <label for="lossR">資產虧損</label>
+          <input type="range" id="lossR" min="0" max="70" step="0.5">
+          <span><input type="number" id="lossN" min="0" max="100" step="0.5"> %</span>
+        </div>
+        <div class="slider-row">
+          <label for="fxR">匯率虧損</label>
+          <input type="range" id="fxR" min="0" max="30" step="0.5">
+          <span><input type="number" id="fxN" min="0" max="100" step="0.5"> %</span>
+        </div>
+        <div class="kpi-row" id="scn-kpis" style="margin-top:12px"></div>
+        <div id="scn-gauge" style="margin-top:12px"></div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <h3>維持率對照表（資產虧損 × 匯率虧損）</h3>
+        <div class="legend"><span><i style="background:var(--ok-bg)"></i>✓ 正常</span><span><i style="background:var(--call-bg)"></i>⚠ 補倉通知</span><span><i style="background:var(--liq-bg)"></i>✕ 平倉通知</span></div>
+        <div class="table-scroll" style="box-shadow:none"><table id="grid" class="matrix"></table></div>
+        <p class="note">表內數字為該情境下的維持率；粗框為目前拉吧所在位置附近的格子。</p>
+      </div>
+    </section>
+
+    <section id="income">
+      <h2>4. 預期收益與借款利息</h2>
+      <p class="lead">本站八檔都是累積型、不配息，沒有現金配息；這裡的「預期收益」是以預期年報酬推估的淨值增加，借款利息則是實際要付出的現金。</p>
+      <div class="kpi-row" id="income-kpis"></div>
+      <div class="panel" style="margin-top:14px"><h3>各基金預期年收益（萬元）</h3><div class="chart-box short"><canvas id="c-income"></canvas></div></div>
+    </section>
+
+    <section id="mix">
+      <h2>5. 組合資產透視</h2>
+      <p class="lead">把每檔基金的最新月報資料，依你輸入的市值加權合併。比例皆以「整個組合 = 100%」計，產業分布則以「組合中的股票部位 = 100%」計。</p>
+      <div class="panel"><h3>基金權重</h3><div id="weights"></div></div>
+      <div class="two-col" style="margin-top:14px">
+        <div class="panel"><h3>股債比分配</h3><div id="mix-alloc"></div></div>
+        <div class="panel"><h3>持有債券評等比例</h3><div id="mix-credit"></div></div>
+        <div class="panel"><h3>持有資產產業分布（股票部位 = 100%）</h3><div id="mix-sector"></div></div>
+        <div class="panel"><h3>持有資產國家比例</h3><div id="mix-country"></div></div>
+      </div>
+    </section>
+
+    <section id="top20">
+      <h2>6. 前二十大持有標的</h2>
+      <p class="lead">把各基金公布的主要持股（多為前十大，ETF 連結基金已透視母 ETF）依發行人合併。因為每檔只揭露部分持股，實際比例可能更高。</p>
+      <div class="table-scroll"><table id="top-table"></table></div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <div id="tip"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/common.js?v=2"></script>
+  <script src="js/loan.js?v=1"></script>
+</body>
+</html>
