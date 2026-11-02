@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>質押借款試算｜八檔基金比較</title>
-  <meta name="description" content="輸入八檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
+  <title>質押借款試算｜十檔基金比較</title>
+  <meta name="description" content="輸入十檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header id="site-header"></header>
@@ -53,13 +53,13 @@
           <table>
             <thead><tr><th>借貸成數組別</th><th>適用基金</th><th>接近補倉水準<span class="sub">將屆通知客戶</span></th><th>補倉通知<span class="sub">通知客戶</span></th><th>平倉通知<span class="sub">處分</span></th></tr></thead>
             <tbody>
-              <tr><td>7 ＜ X ≦ 8 成</td><td style="text-align:left">RR1～RR3（第 1、2、3、4、7、8 檔）</td><td><input type="number" id="a3" step="1"> %</td><td><input type="number" id="c3" step="1"> %</td><td><input type="number" id="l3" step="1"> %</td></tr>
-              <tr><td>6 ＜ X ≦ 7 成</td><td style="text-align:left">RR4 以上（第 5、6 檔）</td><td><input type="number" id="a4" step="1"> %</td><td><input type="number" id="c4" step="1"> %</td><td><input type="number" id="l4" step="1"> %</td></tr>
+              <tr><td>7 ＜ X ≦ 8 成</td><td style="text-align:left">RR1～RR3（第 1～6、9、10 檔）</td><td><input type="number" id="a3" step="1"> %</td><td><input type="number" id="c3" step="1"> %</td><td><input type="number" id="l3" step="1"> %</td></tr>
+              <tr><td>6 ＜ X ≦ 7 成</td><td style="text-align:left">RR4 以上（第 7、8 檔）</td><td><input type="number" id="a4" step="1"> %</td><td><input type="number" id="c4" step="1"> %</td><td><input type="number" id="l4" step="1"> %</td></tr>
             </tbody>
           </table>
         </div>
         <p class="note">表格中的維持率皆為「低於」該數值時觸發。RR3、RR4 各半時，加權後為接近補倉 131%、補倉 125%、平倉 115%。</p>
-        <p class="caveat">銀行通知表另有 5 ＜ X ≦ 6 成一組（160%／150%／130%），本站八檔不適用故未列入；若銀行調整基金的借貸成數組別，請改用對應數字。</p>
+        <p class="caveat">銀行通知表另有 5 ＜ X ≦ 6 成一組（160%／150%／130%），本站十檔不適用故未列入；若銀行調整基金的借貸成數組別，請改用對應數字。</p>
       </details>
     </section>
 
@@ -72,10 +72,10 @@
         <div id="gauge"></div>
       </div>
       <div class="table-scroll" style="margin-top:14px"><table id="drop-table"></table></div>
-      <p class="note">「全部資產同步下跌」假設八檔一起跌同樣比例；「只有匯率下跌」假設基金原幣淨值不變，只有美元計價基金（第 1、2、3、4、8 檔）因新台幣升值而縮水。</p>
+      <p class="note">「全部資產同步下跌」假設十檔一起跌同樣比例；「只有匯率下跌」假設基金原幣淨值不變，只有美元計價基金（第 1～6 檔）因新台幣升值而縮水。</p>
       <ul class="caveat">
         <li>實際上各基金跌幅不同：台股 ETF 連結（RR4）波動遠大於其他基金，若台股單獨重挫，RR4 占比下降會讓加權門檻也跟著下降，實際跌幅門檻會與表中不同。可用下方情境試算或改輸入市值來模擬。</li>
-        <li>元大全球優質龍頭平衡雖為新台幣計價，但資產多在海外，新台幣升值時淨值同樣會下跌；本表「只有匯率下跌」未計入這部分，會略為高估可承受的匯率跌幅。</li>
+        <li>元大全球優質龍頭平衡、元大優質收益成長多重資產雖為新台幣計價，但資產多在海外，新台幣升值時淨值同樣會下跌；本表「只有匯率下跌」未計入這部分，會略為高估可承受的匯率跌幅。</li>
         <li>銀行以其每日估價的基金淨值計算維持率，境外基金淨值通常晚 1～2 個營業日公布，實際被通知的時點可能落後市場變化。借款金額未含應計利息。</li>
         <li>可借額度以「組合淨值 × 可借成數上限」簡化計算；銀行也可能依各基金借貸成數（如 8 成、7 成）分別核算，或另有單一標的集中度限制。</li>
       </ul>
@@ -103,16 +103,17 @@
         <div class="legend"><span><i style="background:var(--ok-bg)"></i>✓ 正常</span><span><i style="background:var(--warn-bg)"></i>◐ 接近補倉</span><span><i style="background:var(--call-bg)"></i>⚠ 補倉通知</span><span><i style="background:var(--liq-bg)"></i>✕ 平倉通知</span></div>
         <div class="table-scroll" style="box-shadow:none"><table id="grid" class="matrix"></table></div>
         <p class="note">表內數字為該情境下的維持率；粗框為目前拉吧所在位置附近的格子。</p>
-        <p class="caveat">資產虧損與匯率虧損以相乘方式合併（例如資產 −10%、匯率 −5%，美元基金合計約 −14.5%）；資產虧損假設八檔同幅度下跌。</p>
+        <p class="caveat">資產虧損與匯率虧損以相乘方式合併（例如資產 −10%、匯率 −5%，美元基金合計約 −14.5%）；資產虧損假設十檔同幅度下跌。</p>
       </div>
     </section>
 
     <section id="income">
       <h2>4. 預期收益與借款利息</h2>
-      <p class="lead">本站八檔都是累積型、不配息，沒有現金配息；這裡的「預期收益」是以預期年報酬推估的淨值增加，借款利息則是實際要付出的現金。</p>
+      <p class="lead">本站十檔都是累積型、不配息，沒有現金配息；這裡的「預期收益」是以預期年報酬推估的淨值增加，借款利息則是實際要付出的現金。</p>
       <div class="kpi-row" id="income-kpis"></div>
       <div class="panel" style="margin-top:14px"><h3>各基金預期年收益（萬元）</h3><div class="chart-box short"><canvas id="c-income"></canvas></div></div>
       <ul class="caveat">
+        <li>元大優質收益成長多重資產成立未滿 1 年，沒有歷史報酬可帶入，預設為 0%，請自行輸入。</li>
         <li>預期年報酬預設帶入歷史年化報酬，過去績效不代表未來；台灣 50 連結近幾年報酬特別高，直接沿用可能大幅高估。建議依自己的看法改寫。</li>
         <li>預期收益未扣申購手續費、銀行信託管理費與稅負，也未計入匯率變動；借款利息以單利、全年固定利率估算。</li>
         <li>累積型基金的收益反映在淨值上，不會產生現金；利息需另以現金支付。</li>
@@ -132,7 +133,8 @@
       <ul class="caveat">
         <li>各基金資料來自 2026 年 8～9 月月報，日期不完全一致，基金經理人可能已調整配置。</li>
         <li>國家分類混用：部分基金為國家別，部分只有 Morningstar 區域（如「歐元區」、「已開發亞洲」），無法再細分到國家。</li>
-        <li>產業分布以各基金股票部位換算，可轉債、股票連結票據的標的產業未計入。</li>
+        <li>產業分布以各基金股票部位（含股票型 ETF）換算，可轉債、股票連結票據的標的產業未計入。</li>
+        <li>PIMCO 收益增長以期貨等衍生性商品放大債券曝險（股＋債約 121%，以 −21% 短天期工具淨額抵銷），併入組合時負值併入現金類別，因此股債比合計可能略超過 100%。</li>
       </ul>
     </section>
 
@@ -151,8 +153,8 @@
   <div id="tip"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/common.js?v=3"></script>
-  <script src="js/loan.js?v=2"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/common.js?v=4"></script>
+  <script src="js/loan.js?v=3"></script>
 </body>
 </html>

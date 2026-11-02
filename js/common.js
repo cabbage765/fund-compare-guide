@@ -43,6 +43,15 @@ function countryGroup(k) {
   return "其他／現金";
 }
 
+// 卡片與摘要用的代表數字：近 3 年，不足時用近 1 年，再不足用成立以來（累積、不年化）
+function headline(f) {
+  for (const n of [3, 1]) if (f.per[n]) return { label: `${n} 年年化報酬`, short: `${n} 年`, ret: f.per[n].ret, vol: f.per[n].vol, sharpe: f.per[n].sharpe };
+  const s = f.per.si;
+  return { label: `成立 ${s.months} 個月累積`, short: `成立 ${s.months} 個月`, ret: s.cum, vol: s.vol, sharpe: null };
+}
+// 第 9、10 檔顏色與前面的色相較接近，折線另加虛線區分
+const dash = f => f.no >= 9 ? [6, 4] : [];
+
 function fundLink(f, label) {
   return `<a href="fund.html?id=${f.key}"><span class="dot" style="--c:${color(f)}"></span>${label || f.short}</a>`;
 }
@@ -106,7 +115,7 @@ function renderChrome(active) {
   ];
   document.getElementById("site-header").innerHTML = `
     <div class="wrap header-inner">
-      <a class="brand" href="index.html">📊 八檔基金比較</a>
+      <a class="brand" href="index.html">📊 十檔基金比較</a>
       <nav>${links.map(([href, label]) =>
         `<a href="${href}" class="${active === href ? "active" : ""}">${label}</a>`).join("")}</nav>
     </div>`;

@@ -4,9 +4,9 @@ renderChrome("funds.html");
 const id = new URLSearchParams(location.search).get("id");
 const f = fundByKey[id] || FUNDS[0];
 const c = color(f);
-document.title = `${f.short}｜八檔基金比較`;
+document.title = `${f.short}｜十檔基金比較`;
 
-// 在八檔中的名次（報酬、Sharpe 由高到低；波動由低到高）
+// 在十檔中的名次（報酬、Sharpe 由高到低；波動由低到高）
 function rank(n, m) {
   const vals = FUNDS.filter(x => x.per[n]).map(x => x.per[n][m]);
   if (!f.per[n]) return "";
@@ -56,8 +56,9 @@ document.getElementById("main").innerHTML = `
       const p = f.per[n];
       if (!p) return `<tr><td>${n} 年</td><td class="na" colspan="4">成立時間不足</td></tr>`;
       return `<tr><td>${n} 年</td><td>${pct(p.ret)}${rank(n, "ret")}</td><td>${pct(p.vol)}${rank(n, "vol")}</td><td>${num(p.sharpe)}${rank(n, "sharpe")}</td><td>${pct(p.rf, 2)}</td></tr>`;
-    }).join("")}</tbody>
+    }).join("")}${f.per[1] ? "" : `<tr><td>成立以來（${f.per.si.months} 個月）</td><td>累積 ${pct(f.per.si.cum)}</td><td>${pct(f.per.si.vol)}</td><td class="na">—</td><td class="na">—</td></tr>`}</tbody>
   </table></div>
+  ${f.per[1] ? "" : `<p class="caveat">成立未滿 1 年：成立以來報酬為累積、未年化；波動以日報酬年化，樣本短、參考性有限。</p>`}
   <div class="facts">
     <div class="fact"><div class="k">近 3 年最大回撤</div><div class="v">${ddText(f.mdd3)}</div></div>
     <div class="fact"><div class="k">成立以來最大回撤（資料自 ${ymd(f.dataStart)}）</div><div class="v">${ddText(f.mddAll)}</div></div>

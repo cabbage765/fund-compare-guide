@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>計算方式與資料來源｜八檔基金比較</title>
+  <title>計算方式與資料來源｜十檔基金比較</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header id="site-header"></header>
@@ -35,6 +35,8 @@
     <h3>資料補足與限制</h3>
     <ul>
       <li><strong>富蘭克林穩定月收益 A(acc)</strong>：級別 2015/1/9 成立，但鉅亨網淨值自 2016/11/28 起。之前的走勢以同基金 A(Mdis) 美元級別的淨值加上歷次配息再投資回推，並在 2016/11/28 接軌；重疊期間兩者累積報酬分別為 69.87% 與 69.96%，誤差不到 0.1%。10 年指標與成立以來回撤因此可計算。</li>
+      <li><strong>PIMCO 收益增長 M 級累積</strong>：級別 2023/11/30 成立，鉅亨網淨值自 2024/7 起。2023/11/30～2024/6 以同基金 M 級月收息（同費率 1.60%）的淨值加上歷次配息再投資回推，重疊期間兩者累積報酬分別為 39.43% 與 39.62%；2023/10/27～11/29 再以機構 H 級累積淨值回推，並每日扣除兩者費率差（1.60% − 1.12% ＝ 0.48%／年），以涵蓋 3 年期間。基金於 2023/11/29 由「Global Core Asset Allocation Fund」改為現行策略，回推的最初一個月屬舊策略。</li>
+      <li><strong>元大優質收益成長多重資產 A 不配息</strong>：2026/7/16 成立，只有約 3.5 個月淨值，無法計算 1 年以上的年化報酬、波動與 Sharpe；頁面改列成立以來累積報酬與波動，相關係數因樣本不足半年不列出。</li>
       <li><strong>貝萊德全球智慧數據股票入息 A2</strong>：2006 年成立，可取得淨值自 2013/7 起，2008 年金融海嘯的回撤未納入。</li>
       <li><strong>駿利亨德森平衡 A2</strong>：1998 年成立，淨值自 2001/8 起（已涵蓋 2002 與 2008 年空頭）。</li>
       <li><strong>施羅德環球收益成長 A 累積</strong>：級別 2015/3 成立，淨值自 2016/9 起；10 年指標可計算，成立以來回撤以 2016/9 起計。</li>
@@ -44,18 +46,18 @@
 
     <h3>配置、信評、產業、國家與持股</h3>
     <ul>
-      <li><strong>股債比</strong>：優先採用基金公司官方月報的資產類別（富蘭克林、貝萊德 ×2、駿利為 2026/9/30；施羅德為香港 2026/8/31 月報），元大基金採 MoneyDJ 與鉅亨網的資料。</li>
-      <li><strong>債券評等</strong>：只有駿利亨德森平衡的官方月報有逐級信評；富蘭克林揭露債券類別（非投資等級／投資等級／公債／房貸債）；施羅德與貝萊德環球資產配置月報未揭露，頁面上以持債內容與公開說明書的投資限制文字說明，不另編數字。</li>
+      <li><strong>股債比</strong>：優先採用基金公司官方月報的資產類別（富蘭克林、貝萊德 ×2、駿利為 2026/9/30；施羅德為香港 2026/8/31 月報；PIMCO 為新加坡 2026/8/31 月報），元大基金採 MoneyDJ 與鉅亨網的資料。</li>
+      <li><strong>債券評等</strong>：駿利亨德森平衡的官方月報有逐級信評；元大優質收益成長多重資產的債券全為美國公債；PIMCO 只揭露平均信評（AA-）；富蘭克林揭露債券類別（非投資等級／投資等級／公債／房貸債）；施羅德與貝萊德環球資產配置月報未揭露，頁面上以持債內容與公開說明書的投資限制文字說明，不另編數字。</li>
       <li><strong>產業分布</strong>：統一使用鉅亨網提供的 Morningstar 產業分類（11 大類），並換算為股票部位 = 100%。</li>
-      <li><strong>國家比例</strong>：貝萊德全球智慧數據為官方月報國家別、元大全球優質龍頭為基金公司公布的國家別，其餘境外基金使用 Morningstar 區域分類。</li>
+      <li><strong>國家比例</strong>：貝萊德全球智慧數據為官方月報國家別、元大全球優質龍頭與元大優質收益成長為基金公司公布的國家別，其餘境外基金使用 Morningstar 區域分類。</li>
       <li><strong>重疊曝險</strong>：只能取得前十大（部分為前 16 大）持股，因此重疊比例是下限，實際重疊會更高，尤其是持有大量美股科技股的基金之間。</li>
-      <li><strong>內扣費用</strong>：境外基金為官方經常性費用（OCF，通常是前一曆年的費用）；境內基金為基金公司公告的 2025 年費用率；ETF 連結基金另加計母 ETF 的總管理費用（0050 約 0.22%、00713 約 0.72%，MoneyDJ）。費用不含申購手續費、銀行信託管理費與交易成本。</li>
+      <li><strong>內扣費用</strong>：境外基金為官方經常性費用（OCF，通常是前一曆年的費用）；境內基金為基金公司公告的 2025 年費用率（元大優質收益成長成立未滿 1 年，以經理費 1.50% ＋保管費 0.25% 估計）；PIMCO 為單一管理費 1.60%（已含行政、保管費）；ETF 連結基金另加計母 ETF 的總管理費用（0050 約 0.22%、00713 約 0.72%，MoneyDJ）。費用不含申購手續費、銀行信託管理費與交易成本。</li>
     </ul>
 
     <h3>資料來源</h3>
     <ul>
       <li>淨值、配息、Morningstar 產業與區域：<a href="https://fund.cnyes.com/" target="_blank" rel="noopener">鉅亨網基金</a></li>
-      <li>官方月報：<a href="https://www.franklintempleton.com.es/" target="_blank" rel="noopener">富蘭克林坦伯頓（2026/9/30）</a>、<a href="https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-global-allocation-fund-class-a2-usd-factsheet-lu0072462426-sg-en-individual.pdf" target="_blank" rel="noopener">貝萊德環球資產配置（2026/9/30）</a>、<a href="https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-systematic-global-equity-high-income-fund-class-a2-usd-factsheet-lu0265550359-sg-en-individual.pdf" target="_blank" rel="noopener">貝萊德全球智慧數據股票入息（2026/9/30）</a>、<a href="https://www.janushenderson.com/hkpi-en/Document/108725/janus-henderson-balanced-fund-factsheet" target="_blank" rel="noopener">駿利亨德森平衡（2026/9/30）</a>、<a href="https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/E_WSAIU_FACTSHEET.pdf" target="_blank" rel="noopener">施羅德環球收益成長（2026/8/31）</a></li>
+      <li>官方月報：<a href="https://www.franklintempleton.com.es/" target="_blank" rel="noopener">富蘭克林坦伯頓（2026/9/30）</a>、<a href="https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-global-allocation-fund-class-a2-usd-factsheet-lu0072462426-sg-en-individual.pdf" target="_blank" rel="noopener">貝萊德環球資產配置（2026/9/30）</a>、<a href="https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-systematic-global-equity-high-income-fund-class-a2-usd-factsheet-lu0265550359-sg-en-individual.pdf" target="_blank" rel="noopener">貝萊德全球智慧數據股票入息（2026/9/30）</a>、<a href="https://www.janushenderson.com/hkpi-en/Document/108725/janus-henderson-balanced-fund-factsheet" target="_blank" rel="noopener">駿利亨德森平衡（2026/9/30）</a>、<a href="https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/E_WSAIU_FACTSHEET.pdf" target="_blank" rel="noopener">施羅德環球收益成長（2026/8/31）</a>、<a href="https://secure.fundsupermart.com/fsm/admin/buy/factsheet/factsheetALZP63.pdf" target="_blank" rel="noopener">PIMCO 收益增長（2026/8/31）</a></li>
       <li>元大基金費用率、持股、國家配置：<a href="https://yuantabank.moneydj.com/w/wr/wr04.djhtm?a=ACYT168-YT81" target="_blank" rel="noopener">MoneyDJ</a></li>
       <li>美國國庫券殖利率：<a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates" target="_blank" rel="noopener">U.S. Department of the Treasury</a></li>
     </ul>
@@ -63,8 +65,8 @@
   <footer id="site-footer"></footer>
   <div id="tip"></div>
 
-  <script src="js/data.js?v=2"></script>
-  <script src="js/common.js?v=3"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/common.js?v=4"></script>
   <script>
     renderChrome("method.html");
     document.getElementById("cls").innerHTML = `<thead><tr><th>基金</th><th style="text-align:left">級別</th><th style="text-align:left">ISIN</th><th>成立日</th><th>淨值資料起點</th></tr></thead>

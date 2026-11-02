@@ -5,13 +5,13 @@ const charts = {};
 
 // ---------- 基金卡片 ----------
 document.getElementById("cards").innerHTML = FUNDS.map(f => {
-  const n = f.per[3] ? 3 : 1, p = f.per[n];
+  const p = headline(f);
   return `<a class="card" href="fund.html?id=${f.key}" style="--c:${color(f)}">
     <h3>${f.no}. ${f.short}</h3>
     <div class="meta">${f.shareClass}｜${f.type}</div>
     <div class="kpis">
-      <div class="kpi"><span class="k">${n} 年年化報酬</span><span class="v">${pct(p.ret)}</span></div>
-      <div class="kpi"><span class="k">${n} 年波動</span><span class="v">${pct(p.vol)}</span></div>
+      <div class="kpi"><span class="k">${p.label}</span><span class="v">${pct(p.ret)}</span></div>
+      <div class="kpi"><span class="k">${p.short}波動</span><span class="v">${pct(p.vol)}</span></div>
       <div class="kpi"><span class="k">內扣費用</span><span class="v">${f.fee.total.toFixed(2)}%</span></div>
     </div>
     <span class="more">看介紹與注意事項 →</span>
@@ -124,7 +124,7 @@ function drawNav() {
   const end = "2026-10-30", from = shiftYears(end, navPeriod);
   const datasets = FUNDS.filter(f => navOn.has(f.key)).map(f => {
     const pts = rebased(f, from);
-    return pts && { label: f.short, data: pts, borderColor: color(f), backgroundColor: color(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0 };
+    return pts && { label: f.short, data: pts, borderColor: color(f), backgroundColor: color(f), borderDash: dash(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0 };
   }).filter(Boolean);
   const cfg = {
     type: "line", data: { datasets },
@@ -174,7 +174,7 @@ function drawUw() {
     const s = SERIES[f.key].filter(p => p[0] >= from);
     let peak = -Infinity;
     const data = s.map(([d, v]) => { peak = Math.max(peak, v); return { x: d, y: (v / peak - 1) * 100 }; });
-    return { label: f.short, data, borderColor: color(f), backgroundColor: color(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4 };
+    return { label: f.short, data, borderColor: color(f), backgroundColor: color(f), borderDash: dash(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4 };
   });
   const labels = [...new Set(datasets.flatMap(d => d.data.map(p => p.x)))].sort();
   if (charts.uw) charts.uw.destroy();
@@ -221,13 +221,14 @@ drawUw();
 // ---------- 股債比 ----------
 (() => {
   const pal = {
-    "股票": cssVar("--s1"), "債券": cssVar("--s3"), "可轉債／股票連結票據": cssVar("--s7"), "可轉債": cssVar("--s7"),
+    "股票": cssVar("--s1"), "股票型 ETF": "#7fb0ea", "債券": cssVar("--s3"), "可轉債／股票連結票據": cssVar("--s7"), "可轉債": cssVar("--s7"),
     "原物料相關": cssVar("--s4"), "現金": "#8f9ba1", "現金及其他": "#8f9ba1", "現金及衍生性商品": "#8f9ba1", "其他": "#b9c2c6", _: ["#b9c2c6"],
   };
   const keys = [["股票", "--s1"], ["債券", "--s3"], ["可轉債／股票連結票據", "--s7"], ["原物料相關", "--s4"]];
   document.getElementById("alloc-legend").innerHTML = keys.map(([k, v]) => `<span><i style="background:${cssVar(v)}"></i>${k}</span>`).join("") +
-    `<span><i style="background:#8f9ba1"></i>現金（含衍生性商品）</span><span><i style="background:#b9c2c6"></i>其他</span>`;
-  document.getElementById("alloc-list").innerHTML = FUNDS.map(f => stackRow(f, f.alloc, pal)).join("");
+    `<span><i style="background:#7fb0ea"></i>股票型 ETF</span><span><i style="background:#8f9ba1"></i>現金（含衍生性商品）</span><span><i style="background:#b9c2c6"></i>其他</span>`;
+  document.getElementById("alloc-list").innerHTML = FUNDS.map(f => stackRow(f, f.alloc, pal)).join("") +
+    `<p class="caveat">PIMCO 收益增長以期貨放大債券曝險：股票 64.6%、債券 56.6%，另有 −21.2% 短天期工具淨額抵銷；圖中只畫正值部位的相對比例。</p>`;
 })();
 
 // ---------- 債券評等 ----------
@@ -245,7 +246,7 @@ drawUw();
       }).join("")}</div>` : "";
       body += `<p class="note" style="margin:8px 0 0">${c.note}</p>${c.src ? `<p class="src">來源：${c.src}</p>` : ""}`;
     }
-    const tag = { rating: "逐級信評", sector: "債券類別", none: "未揭露信評", na: "無債券" }[c.kind];
+    const tag = { rating: "逐級信評", ig: "全為投資等級", sector: "債券類別", avg: "僅平均信評", none: "未揭露信評", na: "無債券" }[c.kind];
     return `<div class="panel"><h3>${fundLink(f)} <span class="badge">${tag}</span></h3>${body}</div>`;
   }).join("");
 })();
@@ -307,11 +308,12 @@ function drawOverlap() {
       return `<td class="heat" style="${heatBg(o.v, 25)}" data-tip="${tip}">${o.v ? o.v.toFixed(1) + "%" : "0"}</td>`;
     }
     const r = CORR[a.key][b.key];
+    if (r == null) return `<td class="na" data-tip="<b>${a.short} × ${b.short}</b><br>共同資料不足半年，不計算">—</td>`;
     return `<td class="heat" style="${heatBg(r, 1)}" data-tip="<b>${a.short} × ${b.short}</b><br>相關係數 ${r.toFixed(2)}">${r.toFixed(2)}</td>`;
   }).join("")}</tr>`).join("");
   document.getElementById("ov-table").innerHTML = head + `<tbody>${body}</tbody>`;
   document.getElementById("ov-note").innerHTML = ovMode === "hold"
-    ? "計算方式：以發行人為單位，把兩檔基金共同持有的部位各取較小權重後加總（占基金淨值 %）。只使用月報公布的前十大持股（元大全球優質龍頭為前 16 大；ETF 連結基金透視母 ETF），所以是<strong>重疊程度的下限</strong>。美國公債、機構房貸債視為同一發行人。滑過格子可看共同持股明細。"
-    : "計算方式：近 3 年（2023/10–2026/10）每週報酬的皮爾森相關係數；元大高股息低波動連結成立未滿 3 年，以成立以來計。越接近 1 代表漲跌越同步、分散效果越小。台股基金與境外基金的淨值時點不同（時差），相關係數會略為低估。";
+    ? "計算方式：以發行人為單位，把兩檔基金共同持有的部位各取較小權重後加總（占基金淨值 %）。只使用月報公布的前十大持股（元大全球優質龍頭、元大優質收益成長為前 20 餘大；ETF 連結基金透視母 ETF；PIMCO 不含衍生性商品），所以是<strong>重疊程度的下限</strong>。美國公債、機構房貸債視為同一發行人。滑過格子可看共同持股明細。"
+    : "計算方式：近 3 年（2023/10–2026/10）每週報酬的皮爾森相關係數；成立未滿 3 年的基金以成立以來計；元大優質收益成長多重資產成立未滿半年，樣本太短不列出。越接近 1 代表漲跌越同步、分散效果越小。台股基金與境外基金的淨值時點不同（時差），相關係數會略為低估。";
 }
 drawOverlap();

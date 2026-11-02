@@ -2,11 +2,11 @@
 
 renderChrome("loan.html");
 
-// 第 5、6 檔（台股 ETF 連結）為 RR4，其餘為 RR3
+// 第 7、8 檔（台股 ETF 連結）為 RR4，其餘為 RR3
 const RR4 = new Set(["tw50", "twhdlv"]);
 // 門檻依銀行通知表：a＝接近補倉、c＝補倉通知、l＝平倉通知；3＝7＜X≦8 成（RR1～RR3）、4＝6＜X≦7 成（RR4 以上）
 const DEFAULTS = { a3: 122, c3: 120, l3: 110, a4: 140, c4: 130, l4: 120, ltv: 70, loan: 0, rate: 2.5, loss: 0, fx: 0, basis: 5 };
-const SAMPLE = { hold: { franklin: 150, schroder: 100, gaf: 150, janus: 150, tw50: 200, twhdlv: 100, leaders: 50, sgehi: 100 }, loan: 500, rate: 2.5 };
+const SAMPLE = { hold: { franklin: 100, schroder: 100, gaf: 100, janus: 100, pimco: 100, sgehi: 100, tw50: 150, twhdlv: 100, leaders: 50, yuantami: 100 }, loan: 500, rate: 2.5 };
 const STORE = "fund-loan-v1";
 
 const st = { ...DEFAULTS, hold: {}, exp: {} };
@@ -22,10 +22,12 @@ function histReturn(f, basis) {
   const order = [10, 5, 3, 1].filter(n => n <= basis);
   for (const n of order) if (f.per[n]) return f.per[n].ret;
   for (const n of [1, 3, 5, 10]) if (f.per[n]) return f.per[n].ret;
-  return 0;
+  return null; // 成立未滿 1 年，沒有可帶入的歷史報酬
 }
 function expOf(f) {
-  return st.exp[f.key] != null ? st.exp[f.key] : Math.round(histReturn(f, st.basis) * 1000) / 10;
+  if (st.exp[f.key] != null) return st.exp[f.key];
+  const h = histReturn(f, st.basis);
+  return h == null ? 0 : Math.round(h * 1000) / 10;
 }
 
 // ---------- 輸入表 ----------
@@ -226,7 +228,7 @@ function renderMix(total) {
     <div class="legend" style="margin-top:8px">${FUNDS.filter(f => w(f) > 0).map(f => `<span><i style="background:${color(f)}"></i>${f.short} ${p1(w(f))}</span>`).join("")}</div>` : `<p class="note">請先輸入持有市值。</p>`;
 
   // 股債比：可轉債與股票連結票據另列；現金類合併
-  const allocName = k => /現金/.test(k) ? "現金（含衍生性商品）" : /可轉債/.test(k) ? "可轉債／股票連結票據" : k;
+  const allocName = k => /現金|短天期/.test(k) ? "現金（含衍生性商品）" : /可轉債/.test(k) ? "可轉債／股票連結票據" : /ETF/.test(k) ? "股票" : k;
   const alloc = {};
   FUNDS.forEach(f => {
     const sum = f.alloc.reduce((s, x) => s + x[1], 0);
@@ -243,7 +245,7 @@ function renderMix(total) {
     if (!ww || c.kind === "na") return;
     if (c.kind === "none") { const b = f.alloc.find(x => x[0] === "債券"); if (b) add("未揭露信評", ww * b[1], f); return; }
     c.items.forEach(([k, v]) => {
-      const g = /非投資|^Ba$|^B$/.test(k) ? "非投資等級" : /未評等/.test(k) ? "未評等" : "投資等級（含公債、機構房貸債）";
+      const g = c.kind === "avg" ? "僅揭露平均信評（PIMCO AA-）" : /非投資|^Ba$|^B$/.test(k) ? "非投資等級" : /未評等/.test(k) ? "未評等" : "投資等級（含公債、機構房貸債）";
       add(g, ww * v, f);
     });
   });
@@ -255,7 +257,7 @@ function renderMix(total) {
   // 產業：各基金股票部位 × 產業比重
   const sec = {}; let eq = 0;
   FUNDS.forEach(f => {
-    const e = (f.alloc.find(x => x[0] === "股票") || [0, 0])[1] / 100 * w(f);
+    const e = f.alloc.filter(x => /^股票/.test(x[0])).reduce((s, x) => s + x[1], 0) / 100 * w(f);
     eq += e;
     f.sectors.forEach(([k, v]) => { sec[k] = (sec[k] || 0) + e * v; });
   });

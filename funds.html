@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>個別基金介紹｜八檔基金比較</title>
+  <title>個別基金介紹｜十檔基金比較</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header id="site-header"></header>
@@ -19,16 +19,16 @@
   <footer id="site-footer"></footer>
   <div id="tip"></div>
 
-  <script src="js/data.js?v=2"></script>
-  <script src="js/series.js?v=2"></script>
-  <script src="js/common.js?v=3"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/series.js?v=3"></script>
+  <script src="js/common.js?v=4"></script>
   <script>
     renderChrome("funds.html");
     document.getElementById("list").innerHTML = FUNDS.map(f => {
-      const n = f.per[3] ? 3 : 1, p = f.per[n];
+      const p = headline(f);
       return `<section id="${f.key}">
         <h2><a href="fund.html?id=${f.key}" style="text-decoration:none;color:inherit"><span class="dot" style="--c:${color(f)};width:14px;height:14px"></span>${f.no}. ${f.name}</a></h2>
-        <p class="lead">${f.shareClass}｜${f.type}｜${n} 年年化 ${pct(p.ret)}、波動 ${pct(p.vol)}、Sharpe ${num(p.sharpe)}｜內扣約 ${f.fee.total.toFixed(2)}%</p>
+        <p class="lead">${f.shareClass}｜${f.type}｜${p.label} ${pct(p.ret)}、波動 ${pct(p.vol)}${p.sharpe != null ? "、Sharpe " + num(p.sharpe) : ""}｜內扣約 ${f.fee.total.toFixed(2)}%</p>
         <div class="panel"><p style="margin:0">${f.intro}</p></div>
         <div class="two-col" style="margin-top:14px">
           <div class="panel good"><h3>特別之處</h3><ul class="points">${f.special.map(s => `<li>${s}</li>`).join("")}</ul></div>

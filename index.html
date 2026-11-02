@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>八檔基金比較</title>
-  <meta name="description" content="富蘭克林穩定月收益、施羅德環球收益成長、貝萊德環球資產配置、駿利亨德森平衡、元大台灣50連結、元大高股息低波動連結、元大全球優質龍頭平衡、貝萊德全球智慧數據股票入息：報酬、波動、Sharpe、回撤、費用、配置與重疊曝險比較。">
+  <title>十檔基金比較</title>
+  <meta name="description" content="富蘭克林穩定月收益、施羅德環球收益成長、貝萊德環球資產配置、駿利亨德森平衡、PIMCO收益增長、貝萊德全球智慧數據股票入息、元大台灣50連結、元大高股息低波動連結、元大全球優質龍頭平衡、元大優質收益成長多重資產：報酬、波動、Sharpe、回撤、費用、配置與重疊曝險比較。">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="八檔基金比較：報酬、風險、費用與重疊曝險">
-  <meta property="og:description" content="以原幣累積型（不配息）級別比較 8 檔台灣常見基金的 1／3／5／10 年報酬、波動、Sharpe、最大回撤、內扣費用、股債比、信評、產業、國家與持股重疊。">
+  <meta property="og:title" content="十檔基金比較：報酬、風險、費用與重疊曝險">
+  <meta property="og:description" content="以原幣累積型（不配息）級別比較 10 檔台灣常見基金的 1／3／5／10 年報酬、波動、Sharpe、最大回撤、內扣費用、股債比、信評、產業、國家與持股重疊。">
   <meta property="og:url" content="https://cabbage765.github.io/fund-compare-guide/">
   <meta property="og:locale" content="zh_TW">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main class="wrap">
     <div class="hero">
-      <h1>八檔基金，一頁看懂差在哪裡</h1>
-      <p>四檔境外股債混合、兩檔元大 ETF 連結、一檔境內全球平衡、一檔全球股票收益基金。全部採<strong>原幣、不配息的累積型級別</strong>，用同一套方法計算報酬、波動、Sharpe 與回撤，並整理各基金最新月報的費用、配置與持股。點任一基金可看個別介紹。</p>
+      <h1>十檔基金，一頁看懂差在哪裡</h1>
+      <p>五檔境外股債混合、一檔全球股票收益、兩檔元大台股 ETF 連結，以及兩檔元大境內全球平衡／多重資產基金。全部採<strong>原幣、不配息的累積型級別</strong>，用同一套方法計算報酬、波動、Sharpe 與回撤，並整理各基金最新月報的費用、配置與持股。點任一基金可看個別介紹。</p>
       <div class="toc">
         <a href="#funds">基金一覽</a><a href="#perf">報酬／波動／Sharpe</a><a href="#nav">淨值走勢</a>
         <a href="#mdd">最大回撤</a><a href="#cal">曆年報酬</a><a href="#fee">內扣費用</a><a href="#alloc">股債比</a>
@@ -29,7 +29,7 @@
 
     <section id="funds">
       <h2>基金一覽</h2>
-      <p class="lead">卡片上方色條是該基金在全站圖表中的固定顏色。數字為近 3 年（成立未滿 3 年者為近 1 年）。</p>
+      <p class="lead">卡片上方色條是該基金在全站圖表中的固定顏色（第 9、10 檔在走勢圖中以虛線區分）。數字為近 3 年（成立未滿 3 年者為近 1 年；未滿 1 年者為成立以來）。</p>
       <div class="grid" id="cards"></div>
     </section>
 
@@ -90,7 +90,7 @@
 
     <section id="credit">
       <h2>持有債券評等比例</h2>
-      <p class="lead">數字為占「全基金」比例。各基金揭露方式不同：駿利有逐級信評，富蘭克林只揭露債券類別，施羅德與貝萊德環球資產配置的月報未揭露信評。</p>
+      <p class="lead">數字為占「全基金」比例。各基金揭露方式不同：駿利有逐級信評，元大優質收益成長的債券全是美國公債，PIMCO 只揭露平均信評，富蘭克林只揭露債券類別，施羅德與貝萊德環球資產配置的月報未揭露信評。</p>
       <div class="grid" id="credit-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))"></div>
     </section>
 
@@ -102,7 +102,7 @@
 
     <section id="country">
       <h2>持有資產國家比例</h2>
-      <p class="lead">貝萊德全球智慧數據與元大全球優質龍頭為基金公司公布的國家別；其餘境外基金為 Morningstar 區域分類（如「歐元區」、「已開發亞洲」）。ETF 連結基金為透視母 ETF 後的結果。</p>
+      <p class="lead">貝萊德全球智慧數據、元大全球優質龍頭與元大優質收益成長為基金公司公布的國家別；其餘境外基金為 Morningstar 區域分類（如「歐元區」、「已開發亞洲」）。ETF 連結基金為透視母 ETF 後的結果。</p>
       <div class="panel"><div class="legend" id="country-legend"></div><div class="stack-list" id="country-list"></div></div>
       <p class="note" id="country-src"></p>
     </section>
@@ -120,9 +120,9 @@
   <div id="tip"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/series.js?v=2"></script>
-  <script src="js/common.js?v=3"></script>
-  <script src="js/index.js?v=2"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/series.js?v=3"></script>
+  <script src="js/common.js?v=4"></script>
+  <script src="js/index.js?v=3"></script>
 </body>
 </html>
