@@ -52,6 +52,13 @@ function headline(f) {
 // 第 9、10 檔顏色與前面的色相較接近，折線另加虛線區分
 const dash = f => f.no >= 9 ? [6, 4] : [];
 
+// 資料截止日（由 data.js 的 AS_OF 提供）
+const md = d => d.slice(5).replace("-", "/");
+function asOfText() {
+  const late = AS_OF.lagging.length ? `（${AS_OF.lagging.map(x => x.short).join("、")}為 ${md(AS_OF.lagging[0].end)}）` : "";
+  return ymd(AS_OF.end) + late;
+}
+
 function fundLink(f, label) {
   return `<a href="fund.html?id=${f.key}"><span class="dot" style="--c:${color(f)}"></span>${label || f.short}</a>`;
 }
@@ -121,10 +128,12 @@ function renderChrome(active) {
     </div>`;
   document.getElementById("site-footer").innerHTML = `
     <div class="wrap">
-      <p>淨值資料計算至 2026/10/30（元大全球優質龍頭平衡為 10/29），持股、配置與費用取自各基金 2026 年 8–9 月月報。
+      <p>淨值資料計算至 ${asOfText()}，持股、配置與費用取自各基金 2026 年 8–9 月月報。
       報酬以原幣計算（美元或新台幣），未扣申購手續費與信託管理費。</p>
       <p>質押試算的補倉／平倉門檻請以借款銀行實際規定為準。本站為個人整理的比較資料，不構成投資建議；投資前請詳閱各基金公開說明書與投資人須知，並以基金公司最新公告為準。</p>
     </div>`;
+  document.querySelectorAll(".asof-full").forEach(e => { e.textContent = asOfText(); });
+  document.querySelectorAll(".asof-md").forEach(e => { e.textContent = md(AS_OF.end); });
   initTips();
   chartDefaults();
 }

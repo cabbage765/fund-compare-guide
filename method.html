@@ -23,7 +23,7 @@
 
     <h3>報酬、波動與 Sharpe Ratio</h3>
     <ul>
-      <li><strong>資料期間</strong>：截至 2026/10/30（元大全球優質龍頭平衡最新淨值為 10/29）。N 年指標的起點為截止日往前 N 年當天（或之前最近一個交易日）的淨值。</li>
+      <li><strong>資料期間</strong>：截至 <span class="asof-full"></span>。N 年指標的起點為截止日往前 N 年當天（或之前最近一個交易日）的淨值。</li>
       <li><strong>年化報酬率</strong>＝（期末淨值 ÷ 期初淨值）^(1/N) − 1。</li>
       <li><strong>年化波動率</strong>：期間內日對數報酬的標準差 × √(該期間每年實際交易日數)，台股約 240 天、境外基金約 250 天。以此方法算出的貝萊德環球資產配置近 1 年波動 10.6%，與官方資料（10.60%）一致；部分月報以月資料計算，數字會較低。</li>
       <li><strong>Sharpe Ratio</strong>＝（年化報酬率 − 期間平均無風險利率）÷ 年化波動率。美元基金使用美國財政部公布的 13 週國庫券殖利率日資料平均；新台幣基金使用台灣銀行一年期定存機動利率（依各期間利率調整加權，2024/3 後以 1.7% 計）。</li>
@@ -41,7 +41,7 @@
       <li><strong>駿利亨德森平衡 A2</strong>：1998 年成立，淨值自 2001/8 起（已涵蓋 2002 與 2008 年空頭）。</li>
       <li><strong>施羅德環球收益成長 A 累積</strong>：級別 2015/3 成立，淨值自 2016/9 起；10 年指標可計算，成立以來回撤以 2016/9 起計。</li>
       <li>淨值多為小數 2 位，日報酬有微小的進位誤差，對年化數字影響可忽略。</li>
-      <li>本站計算結果與基金公司月報可能有小幅差異，主要來自計算截止日（月報多為月底）與期間起點不同。例如貝萊德環球資產配置月報 3 年年化 13.78%（至 9/30），本站為 14.11%（至 10/30）。</li>
+      <li>本站計算結果與基金公司月報可能有小幅差異，主要來自計算截止日（月報多為月底）與期間起點不同。例如貝萊德環球資產配置月報 3 年年化 13.78%（至 2026/9/30），本站以最新淨值計算的數字會因截止日不同而有差異。</li>
     </ul>
 
     <h3>配置、信評、產業、國家與持股</h3>
@@ -65,8 +65,8 @@
   <footer id="site-footer"></footer>
   <div id="tip"></div>
 
-  <script src="js/data.js?v=4"></script>
-  <script src="js/common.js?v=4"></script>
+  <script src="js/data.js?v=6"></script>
+  <script src="js/common.js?v=5"></script>
   <script>
     renderChrome("method.html");
     document.getElementById("cls").innerHTML = `<thead><tr><th>基金</th><th style="text-align:left">級別</th><th style="text-align:left">ISIN</th><th>成立日</th><th>淨值資料起點</th></tr></thead>

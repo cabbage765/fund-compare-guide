@@ -121,7 +121,7 @@ function rebased(f, from) {
 }
 
 function drawNav() {
-  const end = "2026-10-30", from = shiftYears(end, navPeriod);
+  const end = AS_OF.end, from = shiftYears(end, navPeriod);
   const datasets = FUNDS.filter(f => navOn.has(f.key)).map(f => {
     const pts = rebased(f, from);
     return pts && { label: f.short, data: pts, borderColor: color(f), backgroundColor: color(f), borderDash: dash(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0 };
@@ -169,7 +169,7 @@ document.getElementById("mdd-table").innerHTML = `
 
 const uwOn = new Set(FUNDS.map(f => f.key));
 function drawUw() {
-  const from = shiftYears("2026-10-30", 3);
+  const from = shiftYears(AS_OF.end, 3);
   const datasets = FUNDS.filter(f => uwOn.has(f.key)).map(f => {
     const s = SERIES[f.key].filter(p => p[0] >= from);
     let peak = -Infinity;
@@ -194,7 +194,7 @@ drawUw();
 (() => {
   const years = [...new Set(FUNDS.flatMap(f => Object.keys(f.cal)))].map(Number).filter(y => y >= 2016).sort();
   document.getElementById("cal-table").innerHTML = `
-    <thead><tr><th>基金</th>${years.map(y => `<th>${y}${y === 2026 ? "<span class='sub'>至 10/30</span>" : ""}</th>`).join("")}</tr></thead>
+    <thead><tr><th>基金</th>${years.map(y => `<th>${y}${y === 2026 ? `<span class='sub'>至 ${md(AS_OF.end)}</span>` : ""}</th>`).join("")}</tr></thead>
     <tbody>${FUNDS.map(f => `<tr><td class="fund">${fundLink(f)}</td>${years.map(y => {
       const v = f.cal[y];
       return v == null ? `<td class="na">—</td>` : `<td class="heat" style="${divBg(v, 0.5)}" data-tip="<b>${f.short}</b><br>${y} 年：${pct(v, 1, true)}">${pct(v, 1, true)}</td>`;

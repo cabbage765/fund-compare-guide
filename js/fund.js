@@ -65,7 +65,7 @@ document.getElementById("main").innerHTML = `
   </div>
 
   <div class="panel"><h3>淨值走勢（${f.cur === "USD" ? "美元" : "新台幣"}，資料起點 = 100）</h3><div class="chart-box"><canvas id="c-nav"></canvas></div></div>
-  <div class="panel"><h3>曆年報酬</h3><div class="chart-box short"><canvas id="c-cal"></canvas></div><p class="src">${Object.keys(f.cal).includes("2026") ? "2026 年為年初至 10/30。" : ""}</p></div>
+  <div class="panel"><h3>曆年報酬</h3><div class="chart-box short"><canvas id="c-cal"></canvas></div><p class="src">${Object.keys(f.cal).includes("2026") ? `2026 年為年初至 ${md(f.end)}。` : ""}</p></div>
 
   <h2>持有資產</h2>
   <div class="two-col">
