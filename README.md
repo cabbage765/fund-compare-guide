@@ -35,3 +35,7 @@
 2. `node fetch-port.js`：下載鉅亨網持股、產業、區域資料到 `raw_oct/`（檢查月報日期用）
 3. `node compute.js`：計算報酬、波動、Sharpe、回撤、相關係數
 4. `node build-data.js`：產生 `js/data.js`、`js/series.js`；月報數字（配置、信評、國家、持股、費用）寫在這支檔案的 `INFO` 裡
+
+## 最新消息（news.html）
+
+內容寫在 `js/news.js`：`NEWS_META` 記錄最後更新日、下次預定更新日與頻率；`NEWS` 每則包含基金、日期、類型（持股調整／經理人異動／績效與觀點／配息／待觀察）、重點、來源，以及是否已由基金公司文件確認（`verified`）。每月 16 日前後依上月月報與經理人評論更新，新消息加在陣列前面，`news.html` 的「本期重點」一併改寫。

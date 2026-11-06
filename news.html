@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基金最新消息｜十檔基金比較</title>
+  <meta name="description" content="十檔基金的經理人持股調整、人事異動、經理人觀點與配息等最新消息，每月更新。">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>基金最新消息</h1>
+      <p>整理各基金經理人對持股做了哪些調整、人事異動、經理人對市場的看法，以及配息與指數調整等事件。內容來自基金公司月報、經理人評論與公開資料，每則都附上來源。</p>
+      <p class="updated" id="news-meta"></p>
+    </div>
+
+    <section>
+      <h2>本期重點</h2>
+      <div class="panel">
+        <ul class="points">
+          <li><b>人事</b>：PIMCO 收益增長月報列名經理人由 4 位減為 3 位（Erin Browne 不再列名）；駿利亨德森平衡傳出債券經理人 Greg Wilensky 將退休，尚待官方確認。</li>
+          <li><b>股票加碼</b>：貝萊德環球資產配置 9 月加碼股票、黃金與科技；富蘭克林第 3 季同時增加股票與債券，9 月加碼金融與公用事業。</li>
+          <li><b>股票減碼</b>：駿利亨德森平衡 8 月調降股票比重控制風險。</li>
+          <li><b>債券走向</b>：PIMCO 的債券風險由公債轉向機構房貸等證券化資產；貝萊德環球資產配置維持短存續期間、減碼新興市場利率。</li>
+          <li><b>元大兩檔境內基金</b>：持續押注記憶體、半導體與 AI。全球優質龍頭加碼 SK hynix、減碼 GE Vernova 與金礦；優質收益成長大幅減碼 Microsoft、新增多檔 AI 與記憶體股。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>各基金消息</h2>
+      <div class="filters" id="fund-chips"></div>
+      <div class="filters" id="type-chips"></div>
+      <div id="news-list"></div>
+      <p class="caveat">「待確認」表示目前只找到二手摘要或轉載，尚未在基金公司文件中確認，請以官方公告為準。部分經理人評論來自同一團隊、同一策略的其他註冊地版本（例如美國共同基金），持股比例可能與台灣銷售的級別略有差異。</p>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <div id="tip"></div>
+
+  <script src="js/data.js?v=8"></script>
+  <script src="js/common.js?v=7"></script>
+  <script src="js/news.js?v=1"></script>
+  <script>
+    renderChrome("news.html");
+    document.getElementById("news-meta").innerHTML =
+      `🕒 最後更新：<b>${ymd(NEWS_META.updated)}</b>｜下次預定更新：${ymd(NEWS_META.next)}｜更新頻率：${NEWS_META.frequency}`;
+
+    const TYPES = ["持股調整", "經理人異動", "績效與觀點", "配息", "待觀察"];
+    let fundSel = "all", typeSel = "all";
+    const chip = (attr, val, label, on, c) => `<button class="chip ${c ? "fund-chip" : ""} ${on ? "on" : ""}" data-${attr}="${val}">${c ? `<span class="dot" style="--c:${c}"></span>` : ""}${label}</button>`;
+    function drawChips() {
+      const count = k => NEWS.filter(n => n.fund === k).length;
+      document.getElementById("fund-chips").innerHTML = `<span class="label">基金</span>` + chip("f", "all", "全部", fundSel === "all") +
+        FUNDS.map(f => chip("f", f.key, `${f.no}. ${f.short}（${count(f.key)}）`, fundSel === f.key, color(f))).join("");
+      document.getElementById("type-chips").innerHTML = `<span class="label">類型</span>` + chip("t", "all", "全部", typeSel === "all") +
+        TYPES.map(t => chip("t", t, t, typeSel === t)).join("");
+    }
+    const when = d => d.length === 7 ? d.replace("-", "/") : ymd(d);
+    function drawList() {
+      const html = FUNDS.map(f => {
+        const items = NEWS.filter(n => n.fund === f.key && (typeSel === "all" || n.type === typeSel));
+        if ((fundSel !== "all" && fundSel !== f.key) || !items.length) return "";
+        return `<div class="news-fund"><h3><a href="fund.html?id=${f.key}" style="text-decoration:none;color:inherit"><span class="dot" style="--c:${color(f)}"></span>${f.no}. ${f.short}</a></h3>
+          ${items.map(n => `<article class="news-card" style="--c:${color(f)}">
+            <div class="news-head"><span class="badge type-${TYPES.indexOf(n.type)}">${n.type}</span>${n.verified ? "" : `<span class="badge unverified">待確認</span>`}
+              <span class="news-date">${when(n.date)}${n.asOf ? `｜資料截至 ${ymd(n.asOf)}` : ""}</span></div>
+            <h4>${n.title}</h4>
+            <ul>${n.points.map(p => `<li>${p}</li>`).join("")}</ul>
+            ${n.note ? `<p class="caveat">${n.note}</p>` : ""}
+            <p class="src">來源：<a href="${encodeURI(n.source.url)}" target="_blank" rel="noopener">${n.source.name}</a></p>
+          </article>`).join("")}</div>`;
+      }).join("");
+      document.getElementById("news-list").innerHTML = html || `<p class="note">這個條件下目前沒有消息。</p>`;
+    }
+    document.addEventListener("click", e => {
+      const b = e.target.closest("button[data-f], button[data-t]"); if (!b) return;
+      if (b.dataset.f) fundSel = b.dataset.f; else typeSel = b.dataset.t;
+      drawChips(); drawList();
+    });
+    drawChips(); drawList();
+  </script>
+</body>
+</html>

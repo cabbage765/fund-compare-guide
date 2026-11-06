@@ -117,6 +117,7 @@ function renderChrome(active) {
   const links = [
     ["index.html", "總覽比較"],
     ["funds.html", "個別基金"],
+    ["news.html", "最新消息"],
     ["loan.html", "質押借款試算"],
     ["method.html", "計算方式與資料來源"],
   ];
