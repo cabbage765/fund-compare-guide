@@ -26,3 +26,12 @@
 淨值計算至 2026/11/05，持股與配置取自 2026 年 8–9 月月報。計算方式與資料來源見 `method.html`。
 
 純靜態網站，以 GitHub Pages 發布。內容僅供參考，不構成投資建議。
+
+## 資料更新方式（tools/）
+
+在 `tools/` 資料夾執行（`raw/` 為下載的原始資料，不進版控）：
+
+1. `node refresh.js`：更新十檔淨值、配息與美國國庫券利率
+2. `node fetch-port.js`：下載鉅亨網持股、產業、區域資料到 `raw_oct/`（檢查月報日期用）
+3. `node compute.js`：計算報酬、波動、Sharpe、回撤、相關係數
+4. `node build-data.js`：產生 `js/data.js`、`js/series.js`；月報數字（配置、信評、國家、持股、費用）寫在這支檔案的 `INFO` 裡
