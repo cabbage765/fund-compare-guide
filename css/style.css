@@ -245,3 +245,7 @@ td.st-liq { color: var(--status-liq); font-weight: 700; }
 ul.caveat { padding-left: 1.2em; }
 ul.caveat::before { content: none; }
 ul.caveat li::marker { content: "ⓘ  "; }
+
+/* 首頁資料更新日期 */
+.hero .updated { margin: 12px 0 0; font-size: .88rem; color: var(--muted); }
+.hero .updated b { color: var(--text); }

@@ -5,13 +5,19 @@ renderChrome("loan.html");
 // 第 7、8 檔（台股 ETF 連結）為 RR4，其餘為 RR3
 const RR4 = new Set(["tw50", "twhdlv"]);
 // 門檻依銀行通知表：a＝接近補倉、c＝補倉通知、l＝平倉通知；3＝7＜X≦8 成（RR1～RR3）、4＝6＜X≦7 成（RR4 以上）
-const DEFAULTS = { a3: 122, c3: 120, l3: 110, a4: 140, c4: 130, l4: 120, ltv: 70, loan: 0, rate: 2.5, loss: 0, fx: 0, basis: 5 };
-const SAMPLE = { hold: { franklin: 100, schroder: 100, gaf: 100, janus: 100, pimco: 100, sgehi: 100, tw50: 150, twhdlv: 100, leaders: 50, yuantami: 100 }, loan: 500, rate: 2.5 };
+const DEFAULTS = { a3: 122, c3: 120, l3: 110, a4: 140, c4: 130, l4: 120, ltv: 70, loan: 0, rate: 0, loss: 0, fx: 0, basis: 5 };
+// 舊版會自動帶入的範例數字；若瀏覽器裡存的正好是範例，就清掉，改由使用者自行輸入
+const OLD_SAMPLES = [
+  { franklin: 150, schroder: 100, gaf: 150, janus: 150, tw50: 200, twhdlv: 100, leaders: 50, sgehi: 100 },
+  { franklin: 100, schroder: 100, gaf: 100, janus: 100, pimco: 100, sgehi: 100, tw50: 150, twhdlv: 100, leaders: 50, yuantami: 100 },
+];
 const STORE = "fund-loan-v1";
 
 const st = { ...DEFAULTS, hold: {}, exp: {} };
 try { Object.assign(st, JSON.parse(localStorage.getItem(STORE) || "{}")); } catch (e) { /* 無法讀取時用預設值 */ }
-if (!Object.keys(st.hold).length) Object.assign(st, { hold: { ...SAMPLE.hold }, loan: SAMPLE.loan, rate: SAMPLE.rate });
+const sameHold = (a, b) => FUNDS.every(f => (a[f.key] || 0) === (b[f.key] || 0));
+if (st.loan === 500 && OLD_SAMPLES.some(x => sameHold(st.hold, x))) Object.assign(st, { hold: {}, loan: 0, rate: 0 });
+const blank = v => v ? v : ""; // 0 顯示為空白，讓欄位維持未填狀態
 const save = () => { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch (e) { /* 私密模式等情況略過 */ } };
 
 const wan = (x, d = 1) => (Math.round(x * 10 ** d) / 10 ** d).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }) + " 萬";
@@ -41,7 +47,8 @@ document.getElementById("hold-body").innerHTML = FUNDS.map(f => `<tr>
 </tr>`).join("");
 
 const $ = id => document.getElementById(id);
-for (const k of ["loan", "rate", "ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
+for (const k of ["ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
+$("loan").value = blank(st.loan); $("rate").value = blank(st.rate);
 $("lossR").value = $("lossN").value = st.loss;
 $("fxR").value = $("fxN").value = st.fx;
 document.querySelectorAll("[data-basis]").forEach(b => b.classList.toggle("on", +b.dataset.basis === st.basis));
@@ -65,15 +72,10 @@ document.querySelectorAll("[data-basis]").forEach(b => b.addEventListener("click
 $("reset").addEventListener("click", () => {
   Object.assign(st, { ...DEFAULTS, hold: {}, exp: {} });
   document.querySelectorAll("[data-hold]").forEach(i => { i.value = ""; });
-  for (const k of ["loan", "rate", "ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
+  for (const k of ["ltv", "a3", "c3", "l3", "a4", "c4", "l4"]) $(k).value = st[k];
+  $("loan").value = ""; $("rate").value = "";
   $("lossR").value = $("lossN").value = $("fxR").value = $("fxN").value = 0;
   FUNDS.forEach(f => { document.querySelector(`[data-exp="${f.key}"]`).value = expOf(f); });
-  save(); render();
-});
-$("sample").addEventListener("click", () => {
-  Object.assign(st, { hold: { ...SAMPLE.hold }, loan: SAMPLE.loan, rate: SAMPLE.rate });
-  document.querySelectorAll("[data-hold]").forEach(i => { i.value = st.hold[i.dataset.hold] || ""; });
-  $("loan").value = st.loan; $("rate").value = st.rate;
   save(); render();
 });
 
@@ -144,7 +146,7 @@ function render() {
   // 維持率 KPI
   $("kpis").innerHTML =
     tile("組合總市值", wan(total), `其中美元基金 ${total ? p1(usd / total) : "—"}`) +
-    tile("借款金額", wan(L), `年利率 ${st.rate}%`) +
+    tile("借款金額", wan(L), st.rate ? `年利率 ${st.rate}%` : "尚未輸入利率") +
     tile("目前維持率", L > 0 ? p1(s0.ratio) : "無借款", stt.t, "st-" + stt.k) +
     tile("加權接近補倉水準", "＜ " + p1(s0.warn), "將屆通知客戶") +
     tile("加權補倉通知線", "＜ " + p1(s0.call), `RR4 占 ${p1(s0.w4)}`) +

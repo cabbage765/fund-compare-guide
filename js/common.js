@@ -128,7 +128,7 @@ function renderChrome(active) {
     </div>`;
   document.getElementById("site-footer").innerHTML = `
     <div class="wrap">
-      <p>淨值資料計算至 ${asOfText()}，持股、配置與費用取自各基金 2026 年 8–9 月月報。
+      <p>淨值資料計算至 ${asOfText()}，持股、配置與費用取自各基金 ${AS_OF.reports}月報。
       報酬以原幣計算（美元或新台幣），未扣申購手續費與信託管理費。</p>
       <p>質押試算的補倉／平倉門檻請以借款銀行實際規定為準。本站為個人整理的比較資料，不構成投資建議；投資前請詳閱各基金公開說明書與投資人須知，並以基金公司最新公告為準。</p>
     </div>`;

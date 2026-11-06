@@ -1,5 +1,5 @@
 // 由資料整理腳本產生：淨值計算至 2026/11/05，持股與配置為 2026 年 8–9 月月報
-const AS_OF = {"end":"2026-11-05","lagging":[{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-04"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-04"}]};
+const AS_OF = {"updated":"2026-11-06","reports":"2026 年 8～9 月","end":"2026-11-05","lagging":[{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-04"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-04"}]};
 
 const FUNDS = [
  {

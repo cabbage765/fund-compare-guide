@@ -317,7 +317,8 @@ const FUNDS = ORDER.map((key, i) => {
 });
 const CORR = {}; for (const a of ORDER) { CORR[a] = {}; for (const b of ORDER) CORR[a][b] = corr[a][b].n < 26 ? null : Math.round(corr[a][b].r * 100) / 100; }
 const ends = ORDER.map(k => [k, M[k].end]);
-const AS_OF = { end: ends.map(x => x[1]).sort().at(-1), lagging: ends.filter(x => x[1] < ends.map(y => y[1]).sort().at(-1)).map(([k, d]) => ({ key: k, short: INFO[k].short, end: d })) };
+// updated：執行本腳本的日期（台北時間）；reports：月報資料月份，更新月報時請一併修改
+const AS_OF = { updated: new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10), reports: "2026 年 8～9 月", end: ends.map(x => x[1]).sort().at(-1), lagging: ends.filter(x => x[1] < ends.map(y => y[1]).sort().at(-1)).map(([k, d]) => ({ key: k, short: INFO[k].short, end: d })) };
 const header = "// 由資料整理腳本產生：淨值計算至 " + AS_OF.end.replace(/-/g, "/") + "，持股與配置為 2026 年 8–9 月月報\n";
 fs.writeFileSync(OUT + "data.js", header + "const AS_OF = " + JSON.stringify(AS_OF) + ";\n\nconst FUNDS = " + JSON.stringify(FUNDS, null, 1) + ";\n\nconst CORR = " + JSON.stringify(CORR) + ";\n");
 // 以該週週五為日期，讓台股與境外基金的週資料對齊同一組日期

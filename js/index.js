@@ -1,6 +1,7 @@
 // 首頁：各項比較圖表
 
 renderChrome("index.html");
+document.getElementById("updated").innerHTML = `🕒 資料最後更新：<b>${ymd(AS_OF.updated)}</b>｜淨值計算至 ${asOfText()}｜持股與配置為 ${AS_OF.reports}月報`;
 const charts = {};
 
 // ---------- 基金卡片 ----------

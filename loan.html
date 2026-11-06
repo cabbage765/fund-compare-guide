@@ -6,7 +6,7 @@
   <title>質押借款試算｜十檔基金比較</title>
   <meta name="description" content="輸入十檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
   <header id="site-header"></header>
@@ -41,10 +41,10 @@
       </div>
 
       <div class="form-grid">
-        <label class="field"><span>目前借款金額（萬元）</span><input type="number" id="loan" min="0" step="1"></label>
-        <label class="field"><span>借款年利率（%）</span><input type="number" id="rate" min="0" step="0.01"></label>
+        <label class="field"><span>目前借款金額（萬元）</span><input type="number" id="loan" min="0" step="1" placeholder="例如 500"></label>
+        <label class="field"><span>借款年利率（%）</span><input type="number" id="rate" min="0" step="0.01" placeholder="例如 2.5"></label>
         <label class="field"><span>可借成數上限（占組合淨值 %）</span><input type="number" id="ltv" min="0" max="100" step="1"></label>
-        <div class="field btns"><button class="chip" id="reset">清空重填</button><button class="chip" id="sample">帶入範例</button></div>
+        <div class="field btns"><button class="chip" id="reset">清空重填</button></div>
       </div>
 
       <details class="panel settings" id="settings">
@@ -153,8 +153,8 @@
   <div id="tip"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="js/data.js?v=7"></script>
-  <script src="js/common.js?v=5"></script>
-  <script src="js/loan.js?v=3"></script>
+  <script src="js/data.js?v=8"></script>
+  <script src="js/common.js?v=6"></script>
+  <script src="js/loan.js?v=4"></script>
 </body>
 </html>
