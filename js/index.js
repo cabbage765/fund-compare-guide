@@ -228,7 +228,7 @@ drawUw();
   document.getElementById("alloc-legend").innerHTML = keys.map(([k, v]) => `<span><i style="background:${cssVar(v)}"></i>${k}</span>`).join("") +
     `<span><i style="background:#7fb0ea"></i>股票型 ETF</span><span><i style="background:#8f9ba1"></i>現金（含衍生性商品）</span><span><i style="background:#b9c2c6"></i>其他</span>`;
   document.getElementById("alloc-list").innerHTML = FUNDS.map(f => stackRow(f, f.alloc, pal)).join("") +
-    `<p class="caveat">PIMCO 收益增長以淨曝險呈現：債券 35.4% 為債券部位 56.6% 扣除 −21.2% 短天期工具淨額（期貨等衍生性商品的抵銷部位）後的數字；若以總曝險計，股＋債約 121%。</p>`;
+    `<p class="caveat">PIMCO 收益增長以淨曝險呈現：債券 34.7% 為債券部位 55.3% 扣除 −20.6% 短天期工具淨額（期貨等衍生性商品的抵銷部位）後的數字；若以總曝險計，股＋債約 121%。</p>`;
 })();
 
 // ---------- 債券評等 ----------
