@@ -1,0 +1,49 @@
+# 每天自動更新十檔基金淨值與績效（不需要 Claude，也不需要電腦開著）
+# 月報、說明文字與最新消息另由每月 1、16 日的 Claude 排程更新
+name: 每日更新淨值
+
+on:
+  schedule:
+    - cron: "30 0 * * *"   # 台北時間每天 08:30（境外基金前一日淨值與台股基金淨值多已公布）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: daily-nav
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 下載淨值並重算指標
+        working-directory: tools
+        run: |
+          node refresh.js
+          node compute.js > compute.log
+          node build-data.js
+
+      - name: 淨值有變動才提交
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- js/series.js; then
+            echo "淨值沒有變動（例如假日），不提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/data.js js/series.js
+          git commit -m "每日自動更新淨值（$(TZ=Asia/Taipei date +%Y/%m/%d)）"
+          git push
+          # 由 GITHUB_TOKEN 推送的提交不會自動觸發 Pages 建置，這裡手動要求重建
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" --silent
