@@ -21,7 +21,7 @@
 
   <script src="js/data.js?v=8"></script>
   <script src="js/series.js?v=6"></script>
-  <script src="js/common.js?v=7"></script>
+  <script src="js/common.js?v=8"></script>
   <script>
     renderChrome("funds.html");
     document.getElementById("list").innerHTML = FUNDS.map(f => {
@@ -34,6 +34,7 @@
           <div class="panel good"><h3>特別之處</h3><ul class="points">${f.special.map(s => `<li>${s}</li>`).join("")}</ul></div>
           <div class="panel warn"><h3>需要留意</h3><ul class="points">${f.cautions.map(s => `<li>${s}</li>`).join("")}</ul></div>
         </div>
+        <p class="caveat">說明文字中的數字於每月 1 日、16 日核對；最新績效以個別基金頁的績效表為準（每天自動更新）。</p>
         <p><a href="fund.html?id=${f.key}">看 ${f.short} 的完整數據 →</a></p>
       </section>`;
     }).join("");

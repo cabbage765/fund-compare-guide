@@ -23,7 +23,7 @@
 
     <h3>報酬、波動與 Sharpe Ratio</h3>
     <ul>
-      <li><strong>資料期間</strong>：截至 <span class="asof-full"></span>。N 年指標的起點為截止日往前 N 年當天（或之前最近一個交易日）的淨值。</li>
+      <li><strong>資料期間</strong>：截至 <span class="asof-full"></span>。淨值每天台北時間 08:30 左右自動更新（GitHub Actions），月報資料與最新消息於每月 1 日、16 日更新。N 年指標的起點為截止日往前 N 年當天（或之前最近一個交易日）的淨值。</li>
       <li><strong>年化報酬率</strong>＝（期末淨值 ÷ 期初淨值）^(1/N) − 1。</li>
       <li><strong>年化波動率</strong>：期間內日對數報酬的標準差 × √(該期間每年實際交易日數)，台股約 240 天、境外基金約 250 天。以此方法算出的貝萊德環球資產配置近 1 年波動 10.6%，與官方資料（10.60%）一致；部分月報以月資料計算，數字會較低。</li>
       <li><strong>Sharpe Ratio</strong>＝（年化報酬率 − 期間平均無風險利率）÷ 年化波動率。美元基金使用美國財政部公布的 13 週國庫券殖利率日資料平均；新台幣基金使用台灣銀行一年期定存機動利率（依各期間利率調整加權，2024/3 後以 1.7% 計）。</li>
@@ -66,7 +66,7 @@
   <div id="tip"></div>
 
   <script src="js/data.js?v=8"></script>
-  <script src="js/common.js?v=7"></script>
+  <script src="js/common.js?v=8"></script>
   <script>
     renderChrome("method.html");
     document.getElementById("cls").innerHTML = `<thead><tr><th>基金</th><th style="text-align:left">級別</th><th style="text-align:left">ISIN</th><th>成立日</th><th>淨值資料起點</th></tr></thead>

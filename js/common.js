@@ -55,8 +55,11 @@ const dash = f => f.no >= 9 ? [6, 4] : [];
 // 資料截止日（由 data.js 的 AS_OF 提供）
 const md = d => d.slice(5).replace("-", "/");
 function asOfText() {
-  const late = AS_OF.lagging.length ? `（${AS_OF.lagging.map(x => x.short).join("、")}為 ${md(AS_OF.lagging[0].end)}）` : "";
-  return ymd(AS_OF.end) + late;
+  if (!AS_OF.lagging.length) return ymd(AS_OF.end);
+  // 各基金淨值公布時間不同：少數落後時列出名稱，多數落後時改用日期區間
+  const earliest = AS_OF.lagging.map(x => x.end).sort()[0];
+  if (AS_OF.lagging.length <= 3) return `${ymd(AS_OF.end)}（${AS_OF.lagging.map(x => x.short).join("、")}為 ${md(earliest)}）`;
+  return `${ymd(earliest)}～${md(AS_OF.end)}（各基金淨值公布時間不同）`;
 }
 
 function fundLink(f, label) {

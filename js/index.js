@@ -1,7 +1,7 @@
 // 首頁：各項比較圖表
 
 renderChrome("index.html");
-document.getElementById("updated").innerHTML = `🕒 資料最後更新：<b>${ymd(AS_OF.updated)}</b>｜淨值計算至 ${asOfText()}｜持股與配置為 ${AS_OF.reports}月報`;
+document.getElementById("updated").innerHTML = `🕒 資料最後更新：<b>${ymd(AS_OF.updated)}</b>｜淨值計算至 ${asOfText()}｜持股與配置為 ${AS_OF.reports}月報<br><span class="note">淨值與績效每天自動更新；月報資料、說明文字與最新消息於每月 1 日、16 日更新。</span>`;
 const charts = {};
 
 // ---------- 基金卡片 ----------

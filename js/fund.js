@@ -48,6 +48,7 @@ document.getElementById("main").innerHTML = `
     <div class="panel good"><h3>特別之處</h3><ul class="points">${f.special.map(s => `<li>${s}</li>`).join("")}</ul></div>
     <div class="panel warn"><h3>需要留意</h3><ul class="points">${f.cautions.map(s => `<li>${s}</li>`).join("")}</ul></div>
   </div>
+  <p class="caveat">說明文字中的報酬、排名等數字於每月 1 日、16 日核對；下方績效表與圖表每天自動更新，兩者可能略有差異，以績效表為準。</p>
 
   <h2>績效與風險</h2>
   <div class="table-scroll"><table>
