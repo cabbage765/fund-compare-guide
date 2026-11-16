@@ -3,12 +3,109 @@
 // type：持股調整｜經理人異動｜績效與觀點｜配息｜待觀察
 // verified: false 表示只找到二手摘要、尚未由基金公司文件確認
 const NEWS_META = {
-  updated: "2026-11-07",
-  next: "2026-11-16",
+  updated: "2026-11-16",
+  next: "2026-12-01",
   frequency: "每月 1 日、16 日（多數基金公司在月中前公布上月月報；1 日追蹤人事、評論與事件）",
 };
 
 const NEWS = [
+  {
+    fund: "leaders", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月大砍 SK hynix，加碼加拿大油砂與 Kinder Morgan 公司債，現金升至近 17%",
+    points: [
+      "減碼（占淨值變化）：SK hynix −2.56%（6.48% → 3.92%）、Montage Gold −0.66%、NVIDIA −0.33%。",
+      "加碼：Kinder Morgan 公司債 +2.16%（升至 4.81%）、Canadian Natural Resources +2.01%（升至 5.01%）、Microsoft +0.72%、Quanta Services +0.59%、ASML +0.58%。",
+      "Lundin Mining 與 American Express 公司債退出前十大。",
+      "資產配置：現金 14.4% → 16.8%、公司債約 11.5% → 15.0%，股票約 74% → 68%，整體轉向保守。",
+    ],
+    source: { name: "MoneyDJ 持股資料（基金公司公布，2026/10/31）", url: "https://yuantabank.moneydj.com/w/wr/wr04.djhtm?a=ACYT168" },
+    verified: true,
+  },
+  {
+    fund: "yuantami", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月加碼 Microsoft、Apple 與健康照護 ETF，減碼 Lumentum",
+    points: [
+      "加碼：Microsoft +1.61%（升至 3.74%，成為第一大持股）、SPDR 健康照護 ETF +1.32%、Apple +0.61%。",
+      "減碼：Lumentum −0.94%、Micron −0.24%、Bloom Energy −0.22%、NVIDIA −0.12%。",
+      "CrowdStrike、AMD、Alphabet、Lam Research 退出前十大。",
+      "資產配置：美國公債 25.6% → 26.4%、現金 5.7% → 7.4%、ETF 約 9%，股票約 59% → 57%。",
+    ],
+    source: { name: "MoneyDJ 持股資料（基金公司公布，2026/10/31）", url: "https://yuantabank.moneydj.com/w/wr/wr04.djhtm?a=ACYT227" },
+    verified: true,
+  },
+  {
+    fund: "sgehi", date: "2026-11-15", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月前十大：Alphabet 明顯下降，新增 Procter & Gamble、Samsung",
+    points: [
+      "9/30 → 10/31：NVIDIA 4.73% → 4.28%，Apple 3.55% → 3.27%，Alphabet 3.27% → 2.13%，Cisco 2.41% → 2.11%，Accenture 1.81% → 2.11%。",
+      "新進前十大：Procter & Gamble 1.93%、Samsung Electronics 1.49%；Fortinet、Analog Devices 退出。前十大合計 22.5%。",
+      "持股 341 檔，基金規模約 177 億美元；官方 3 年波動率 8.23%。",
+      "量化模型每月調整，未找到經理人文字評論。",
+    ],
+    source: { name: "貝萊德 2026/10/31 月報", url: "https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-systematic-global-equity-high-income-fund-class-a2-usd-factsheet-lu0265550359-sg-en-individual.pdf" },
+    verified: true,
+  },
+  {
+    fund: "schroder", date: "2026-11", asOf: "2026-09-30", type: "持股調整",
+    title: "9 月三支柱維持各約三分之一，前十大債券改為哥倫比亞、阿曼",
+    points: [
+      "資產配置（8/31 → 9/30）：全球股票 33.4% → 33.6%、全球債券 32.4% → 33.7%、可轉債 32.2% → 32.6%。",
+      "前十大新進：ExxonMobil、Alphabet 公司債、阿曼公債、哥倫比亞公債（7%）、第二筆卡達公債；匈牙利公債、NVIDIA、Microsoft 退出前十大。",
+      "區域：北美 44.6%、新興市場 22.8%、歐洲（不含英國）15.3%。",
+      "9 月 −2.2%，與比較指標（−2.1%）相近；今年以來 +11.5%，比較指標 +4.7%。尚未找到經理人文字評論。",
+    ],
+    source: { name: "施羅德香港月報（2026/9/30）", url: "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/E_WSAIU_FACTSHEET.pdf" },
+    note: "月報為同一基金的配息級別，資產配置與持股相同。",
+    verified: true,
+  },
+  {
+    fund: "tw50", date: "2026-09-18", asOf: null, type: "持股調整",
+    title: "9 月指數審核：藥華藥納入、世芯-KY 刪除",
+    points: [
+      "臺灣 50 指數 9 月定期審核：藥華藥因市值排名進入前 40 名而納入，世芯-KY 刪除並轉入臺灣中型 100，9/18 收盤後生效。",
+      "候補名單：台塑、群創、景碩、瑞昱、萬海。",
+    ],
+    source: { name: "優分析報導", url: "https://uanalyze.com.tw/articles/1117754689" },
+    note: "目前只找到媒體報導，尚未核對臺灣指數公司／證交所原始公告。",
+    verified: false,
+  },
+  {
+    fund: "franklin", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
+    title: "暫無新的經理人評論",
+    points: [
+      "10/31 月報尚未取得，最新官方資料為 2026/9/30 月報與第 3 季評論；第 4 季評論預計 2027 年 1 月公布。",
+    ],
+    source: { name: "Franklin Income Fund 第 3 季評論（2026/9/30）", url: "https://www.franklintempletonme.com/download/gem/product-commentary/90ddf8f9-4a1d-4a77-b345-92543e855cd3/ProductCommentary-FranklinIncomeFund-40155-AE-en-GB.pdf" },
+    verified: true,
+  },
+  {
+    fund: "gaf", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
+    title: "暫無新的經理人評論",
+    points: [
+      "11/16 查詢時新加坡、香港、英國、盧森堡版本月報仍為 2026/9/30，經理人月評也仍是 10 月發布、9/30 資料的版本。",
+    ],
+    source: { name: "BlackRock Global Allocation 月評", url: "https://www.blackrock.com/us/individual/literature/fund-commentary/oef-global-allocation-fund-usd-mtd-commentary-en-us.pdf" },
+    verified: true,
+  },
+  {
+    fund: "janus", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
+    title: "暫無新的經理人評論",
+    points: [
+      "香港版月報仍為 2026/9/30；第 4 季評論預計 2027 年 1 月公布。",
+      "11/16 查詢駿利美國官網產品頁，經理人仍列 Jeremiah Buckley、Greg Wilensky、Michael Keough。",
+    ],
+    source: { name: "駿利亨德森平衡月報", url: "https://www.janushenderson.com/hkpi-en/Document/108725/janus-henderson-balanced-fund-factsheet" },
+    verified: true,
+  },
+  {
+    fund: "pimco", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
+    title: "暫無新的經理人評論",
+    points: [
+      "Fundsupermart 提供的月報仍為 2026/9/30（前十大持股截至 6/30），尚未找到 10 月月報或經理人評論。",
+    ],
+    source: { name: "PIMCO 月報（2026/9/30）", url: "https://secure.fundsupermart.com/fsm/admin/buy/factsheet/factsheetALZP63.pdf" },
+    verified: true,
+  },
   {
     fund: "gaf", date: "2026-10-28", asOf: "2026-09-30", type: "持股調整",
     title: "9 月加碼股票與黃金，減碼債券（特別是新興市場利率）",
@@ -64,7 +161,7 @@ const NEWS = [
     title: "傳債券經理人 Greg Wilensky 將退休，不另補人",
     points: [
       "第 3 季評論摘要提到 Wilensky 將退休、不會指定直接接替者，由 Jeremiah Buckley 與 Michael Keough 續任共同經理人。",
-      "駿利官方 9/30 月報與經理人介紹頁仍列有 Wilensky，尚未找到基金公司正式公告。",
+      "駿利官方 9/30 月報與美國官網產品頁（11/16 查詢）仍列有 Wilensky，尚未找到基金公司正式公告。",
     ],
     source: { name: "Seeking Alpha 轉載之第 3 季評論摘要", url: "https://seekingalpha.com/article/4958494-janus-henderson-balanced-fund-q3-2026-commentary" },
     verified: false,
@@ -142,7 +239,7 @@ const NEWS = [
     title: "B 類型預計 11 月首次配息（本站分析的 A 類型不配息）",
     points: [
       "募集時報導指出採月配息設計，首次配息預計在 11 月；配息來源可能為本金。",
-      "實際除息日與金額以元大投信公告為準，下次更新時補上。",
+      "11/16 查詢時尚未找到元大投信的 B 類型配息公告，實際除息日與金額以官方公告為準，12/1 再追蹤。",
     ],
     source: { name: "旺得富報導（2026/6/29）", url: "https://wantrich.chinatimes.com/news/20260629900463-420401" },
     verified: true,
@@ -151,7 +248,7 @@ const NEWS = [
     fund: "twhdlv", date: "2026-12", asOf: null, type: "待觀察",
     title: "00713 指數 12 月定期審核，成分股可能調整",
     points: [
-      "臺灣指數公司特選高股息低波動指數每年 6、12 月定期審核，審核結果通常在生效前一週左右公布。",
+      "臺灣指數公司特選高股息低波動指數每年 6、12 月定期審核，以 12 月第 7 個交易日為審核日、資料截至 11 月最後一個交易日，結果通常在生效前一週左右公布。",
       "連結基金持有 00713，成分股調整會直接反映在透視後的持股與產業比重。",
     ],
     source: { name: "Money101：00713 介紹", url: "https://www.money101.com.tw/blog/00713-元大高息低波-etf-配息" },
@@ -161,20 +258,10 @@ const NEWS = [
     fund: "tw50", date: "2026-12", asOf: null, type: "待觀察",
     title: "台灣 50 指數每季審核，下一次在 12 月",
     points: [
-      "0050 追蹤的臺灣 50 指數每季定期審核（3、6、9、12 月）。",
+      "0050 追蹤的臺灣 50 指數每季定期審核（3、6、9、12 月）；去年 12 月審核以 11 月下旬資料為準、結果在 12 月初公布。",
       "台積電權重約 56%，成分股異動對連結基金影響主要在權重較小的成分股。",
     ],
     source: { name: "MoneyDJ：0050 基本資料", url: "https://www.moneydj.com/ETF/X/Basic/Basic0004.xdjhtm?etfid=0050.TW" },
-    verified: true,
-  },
-  {
-    fund: "schroder", date: "2026-11", asOf: "2026-08-31", type: "待觀察",
-    title: "暫無新的經理人評論",
-    points: [
-      "目前可取得的最新月報為 2026/8/31，尚未找到 9、10 月的經理人評論或持股變動說明。",
-      "8/31 前十大以債券為主：澳洲、巴西、墨西哥、卡達、匈牙利公債與緯穎可轉債，股票為 NVIDIA、Microsoft。",
-    ],
-    source: { name: "施羅德香港月報（2026/8/31）", url: "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/E_WSAIU_FACTSHEET.pdf" },
     verified: true,
   },
 ];
