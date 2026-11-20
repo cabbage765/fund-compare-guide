@@ -3,12 +3,93 @@
 // type：持股調整｜經理人異動｜績效與觀點｜配息｜待觀察
 // verified: false 表示只找到二手摘要、尚未由基金公司文件確認
 const NEWS_META = {
-  updated: "2026-11-16",
+  updated: "2026-11-20",
   next: "2026-12-01",
   frequency: "每月 1 日、16 日（多數基金公司在月中前公布上月月報；1 日追蹤人事、評論與事件）",
 };
 
 const NEWS = [
+  {
+    fund: "gaf", date: "2026-11-17", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月減碼股票（特別是 AI 相關），現金拉高到約 18%",
+    points: [
+      "官方月報（9/30 → 10/31）：股票 60.6% → 57.3%、現金 14.7% → 17.9%、債券 21.1% → 21.7%、原物料（黃金）3.7% → 3.2%。",
+      "經理人月評：減碼股票（尤其 AI 相關）、非投資等級債與證券化資產；加碼必需消費、能源、投資等級公司債與現金。",
+      "債券部位本身的存續期間由 5.4 年拉長到 7.1 年，但因現金增加，整體有效存續期間只由 1.1 年升到 1.6 年。",
+      "前十大：Apple 由第 1 降到第 3（2.53% → 2.12%），Alphabet 1.59% → 1.12%，Microsoft 1.90% → 2.21%、Eli Lilly 1.07% → 1.25%。",
+    ],
+    source: { name: "貝萊德 2026/10/31 月報", url: "https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-global-allocation-fund-class-a2-usd-factsheet-lu0072462426-sg-en-individual.pdf" },
+    note: "經理人月評來自同一團隊管理的美國共同基金版本（MDLOX），盧森堡 BGF 版本策略相同但持股比例可能略有差異。",
+    verified: true,
+  },
+  {
+    fund: "gaf", date: "2026-11", asOf: "2026-10-31", type: "績效與觀點",
+    title: "經理人：AI 估值重新評價拖累 10 月表現，股票轉為「大致中性」、看好能源避險",
+    points: [
+      "10 月落後參考指標：市場在第 3 季財報期間重新評價 AI 估值；科技加碼與黃金拖累，能源與醫療保健加碼有貢獻。",
+      "經理人認為今年債券在股市下跌時常因利率上升而失去避險效果，黃金與美元的分散效果也有限，能源股成為少數仍有效的避險。",
+      "股票由先前的「小幅加碼」改為「大致中性」，重視獲利韌性與選股；債券維持減碼、存續期間短於指標，偏好較高品質信用與部分證券化資產。",
+    ],
+    source: { name: "BlackRock Global Allocation 月評（2026/11）", url: "https://www.blackrock.com/us/individual/literature/fund-commentary/oef-global-allocation-fund-usd-mtd-commentary-en-us.pdf" },
+    verified: true,
+  },
+  {
+    fund: "franklin", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月股票比重升至約 24%，非投資等級債與股票連結票據降低",
+    points: [
+      "資產配置（9/30 → 10/31）：股票 22.2% → 24.4%、債券 48.5% → 46.9%、股票連結票據／可轉債 28.2% → 25.5%、現金 1.2% → 3.2%。",
+      "債券中非投資等級公司債 20.4% → 19.0%，投資等級公司債 16.6% → 16.8%，美國公債約 7.2%。",
+      "前十大：Morgan Stanley 新進（1.68%）、AbbVie 退出；Microsoft 2.24% → 2.72% 升為第 2 大，Community Health Systems 2.38% → 1.92%。",
+      "債券有效存續期間 5.03 → 5.15 年；規模 140.8 億 → 147.0 億美元。",
+    ],
+    source: { name: "富蘭克林 2026/10/31 月報（A(acc) USD）", url: "https://www.franklintempleton.com.es/download/es-es/factsheet/09c01bd6-d7f2-4f25-99d5-dc483b1c60c2/Factsheet-FranklinIncomeFund-A(acc)USD-4909-Z-FF-ES-es-ES.PDF" },
+    verified: true,
+  },
+  {
+    fund: "janus", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月股票降到約 61%、債券升到約 39%，加碼公債與機構房貸債",
+    points: [
+      "資產配置（9/30 → 10/31）：股票 64.5% → 60.6%、債券 35.3% → 39.1%。",
+      "債券加碼：美國公債 7.4% → 8.8%、機構房貸債 8.7% → 9.7%、投資等級公司債 7.6% → 9.0%；投資等級比重仍約 93%。",
+      "股票：資訊科技 25.2% → 22.2%；前十大 Micron 退出、Eli Lilly 新進，NVIDIA 5.95% → 5.10%，美國公債（2031 年到期）升為第 1 大部位。",
+      "官方月報近 1 年 2.59%，同期 60/40 指標 7.28%，仍明顯落後。",
+    ],
+    source: { name: "駿利亨德森平衡 2026/10/31 月報", url: "https://www.janushenderson.com/hkpi-en/Document/108725/janus-henderson-balanced-fund-factsheet" },
+    verified: true,
+  },
+  {
+    fund: "pimco", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
+    title: "10 月配置變化不大，新興市場股票略減、非美成熟國家債券略增",
+    points: [
+      "（9/30 → 10/31）美股 42.3% → 42.6%、非美成熟股 12.9% → 12.6%、新興市場股票 10.0% → 9.3%。",
+      "債券：美債 45.5% → 43.5%、非美成熟國家債 4.2% → 5.2%、新興市場債 5.6% → 5.7%；短天期工具淨額 −20.6% → −18.9%。淨股債比約 64.5：35.5。",
+      "存續期間貢獻：證券化 3.1 → 2.9 年、政府相關 2.7 → 2.8 年；整體 2.57 → 2.54 年。規模 198 億 → 205 億美元。",
+      "月報的前十大持股仍是 6/30 資料，尚無新的個股變化可比較。",
+    ],
+    source: { name: "PIMCO 2026/10/31 月報", url: "https://secure.fundsupermart.com/fsm/admin/buy/factsheet/factsheetALZP63.pdf" },
+    verified: true,
+  },
+  {
+    fund: "yuantami", date: "2026-11-20", asOf: "2026-11-19", type: "績效與觀點",
+    title: "成立以來淨值回落約 16%，最大回撤 −16.6%",
+    points: [
+      "A 類型淨值由 7/21 高點一路回落，11/19 創成立以來新低，成立以來累積約 −16.0%。",
+      "持股集中在 AI、記憶體與半導體，這段期間科技股修正，掩護性買權只能抵銷一小部分跌幅。",
+      "成立僅約 4 個月，仍無法評估長期表現。",
+    ],
+    source: { name: "本站依鉅亨網淨值計算", url: "https://fund.cnyes.com/" },
+    verified: true,
+  },
+  {
+    fund: "leaders", date: "2026-11-20", asOf: "2026-11-19", type: "績效與觀點",
+    title: "今年以來報酬轉為約 −0.3%，自 6 月高點回落約 18%",
+    points: [
+      "最大回撤擴大至 −18.3%（2026/6/22 高點 → 11/19），尚未回到前高。",
+      "10 月已降低股票、提高現金與公司債（見下方 10 月持股調整），但近兩週淨值仍再跌約 3%。",
+    ],
+    source: { name: "本站依鉅亨網淨值計算", url: "https://fund.cnyes.com/" },
+    verified: true,
+  },
   {
     fund: "leaders", date: "2026-11", asOf: "2026-10-31", type: "持股調整",
     title: "10 月大砍 SK hynix，加碼加拿大油砂與 Kinder Morgan 公司債，現金升至近 17%",
@@ -70,43 +151,6 @@ const NEWS = [
     verified: false,
   },
   {
-    fund: "franklin", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
-    title: "暫無新的經理人評論",
-    points: [
-      "10/31 月報尚未取得，最新官方資料為 2026/9/30 月報與第 3 季評論；第 4 季評論預計 2027 年 1 月公布。",
-    ],
-    source: { name: "Franklin Income Fund 第 3 季評論（2026/9/30）", url: "https://www.franklintempletonme.com/download/gem/product-commentary/90ddf8f9-4a1d-4a77-b345-92543e855cd3/ProductCommentary-FranklinIncomeFund-40155-AE-en-GB.pdf" },
-    verified: true,
-  },
-  {
-    fund: "gaf", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
-    title: "暫無新的經理人評論",
-    points: [
-      "11/16 查詢時新加坡、香港、英國、盧森堡版本月報仍為 2026/9/30，經理人月評也仍是 10 月發布、9/30 資料的版本。",
-    ],
-    source: { name: "BlackRock Global Allocation 月評", url: "https://www.blackrock.com/us/individual/literature/fund-commentary/oef-global-allocation-fund-usd-mtd-commentary-en-us.pdf" },
-    verified: true,
-  },
-  {
-    fund: "janus", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
-    title: "暫無新的經理人評論",
-    points: [
-      "香港版月報仍為 2026/9/30；第 4 季評論預計 2027 年 1 月公布。",
-      "11/16 查詢駿利美國官網產品頁，經理人仍列 Jeremiah Buckley、Greg Wilensky、Michael Keough。",
-    ],
-    source: { name: "駿利亨德森平衡月報", url: "https://www.janushenderson.com/hkpi-en/Document/108725/janus-henderson-balanced-fund-factsheet" },
-    verified: true,
-  },
-  {
-    fund: "pimco", date: "2026-11", asOf: "2026-09-30", type: "待觀察",
-    title: "暫無新的經理人評論",
-    points: [
-      "Fundsupermart 提供的月報仍為 2026/9/30（前十大持股截至 6/30），尚未找到 10 月月報或經理人評論。",
-    ],
-    source: { name: "PIMCO 月報（2026/9/30）", url: "https://secure.fundsupermart.com/fsm/admin/buy/factsheet/factsheetALZP63.pdf" },
-    verified: true,
-  },
-  {
     fund: "gaf", date: "2026-10-28", asOf: "2026-09-30", type: "持股調整",
     title: "9 月加碼股票與黃金，減碼債券（特別是新興市場利率）",
     points: [
@@ -161,7 +205,7 @@ const NEWS = [
     title: "傳債券經理人 Greg Wilensky 將退休，不另補人",
     points: [
       "第 3 季評論摘要提到 Wilensky 將退休、不會指定直接接替者，由 Jeremiah Buckley 與 Michael Keough 續任共同經理人。",
-      "駿利官方 9/30 月報與美國官網產品頁（11/16 查詢）仍列有 Wilensky，尚未找到基金公司正式公告。",
+      "駿利官方 10/31 月報與美國官網產品頁仍列有 Wilensky；11/20 再搜尋，仍未找到基金公司或媒體的正式公告。",
     ],
     source: { name: "Seeking Alpha 轉載之第 3 季評論摘要", url: "https://seekingalpha.com/article/4958494-janus-henderson-balanced-fund-q3-2026-commentary" },
     verified: false,
@@ -179,13 +223,13 @@ const NEWS = [
   },
   {
     fund: "pimco", date: "2026-09-30", asOf: "2026-09-30", type: "經理人異動",
-    title: "月報列名經理人由 4 位減為 3 位，Erin Browne 不再列名",
+    title: "Erin Browne 獲提名美國財政部國際事務次長，不再列名經理人",
     points: [
-      "2026/3/31 月報：Emmanuel Sharef、Erin Browne、Daniel Ivascyn、Joshua Anderson。",
-      "2026/8/31 與 9/30 月報：Emmanuel Sharef、Daniel Ivascyn、Joshua Anderson。",
-      "尚未找到 PIMCO 對此人事變動的說明。",
+      "美國財政部 2026/4/13 公告，總統有意提名 PIMCO 董事總經理暨投資組合經理 Erin Browne 出任財政部國際事務次長（Under Secretary for International Affairs）。",
+      "月報經理人由 3/31 的 4 位（Emmanuel Sharef、Erin Browne、Daniel Ivascyn、Joshua Anderson）減為 8 月起的 3 位，10/31 月報維持 3 位。",
+      "其餘三位經理人續任，未見 PIMCO 調整投資策略的說明。",
     ],
-    source: { name: "PIMCO 月報（2026/3/31 與 2026/9/30）", url: "https://secure.fundsupermart.com/fsm/admin/buy/factsheet/factsheetALZP63.pdf" },
+    source: { name: "美國財政部新聞稿（2026/4/13）", url: "https://home.treasury.gov/news/press-releases/sb0439" },
     verified: true,
   },
   {
@@ -235,13 +279,14 @@ const NEWS = [
     verified: true,
   },
   {
-    fund: "yuantami", date: "2026-11", asOf: null, type: "配息",
-    title: "B 類型預計 11 月首次配息（本站分析的 A 類型不配息）",
+    fund: "yuantami", date: "2026-11-06", asOf: null, type: "配息",
+    title: "B 類型首次配息：每單位 0.075 元，11/13 發放（本站分析的 A 類型不配息）",
     points: [
-      "募集時報導指出採月配息設計，首次配息預計在 11 月；配息來源可能為本金。",
-      "11/16 查詢時尚未找到元大投信的 B 類型配息公告，實際除息日與金額以官方公告為準，12/1 再追蹤。",
+      "10 月份收益分配：B、NB 配息類型（新台幣、美元、日圓）每單位皆配 0.075（各以計價幣別計），基準日 11/3、發放日 11/13。",
+      "以新台幣級別淨值約 8.4～9 元粗估，單月配息約 0.8%～0.9%、年化約 10%（本站估算，未經基金公司公布）。",
+      "公開說明書載明配息來源可能為本金；在淨值下跌期間配息，等於部分拿回本金。",
     ],
-    source: { name: "旺得富報導（2026/6/29）", url: "https://wantrich.chinatimes.com/news/20260629900463-420401" },
+    source: { name: "MoneyDJ：元大優質收益成長多重資產基金 115 年 10 月收益分配（2026/11/6）", url: "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=013d0d69-c059-4ceb-8cbb-020e5c5ed730" },
     verified: true,
   },
   {

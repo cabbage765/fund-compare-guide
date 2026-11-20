@@ -1,6 +1,19 @@
 // 只更新淨值、配息與無風險利率；持股與配置沿用月報資料
 const fs = require("fs");
-const get = async u => { const r = await fetch(u); if (!r.ok) throw new Error(`${r.status} ${u}`); return (await r.json()).items; };
+// 鉅亨網偶爾回傳 5xx，等幾秒重試，最多 4 次
+const get = async u => {
+  for (let i = 1; ; i++) {
+    try {
+      const r = await fetch(u);
+      if (!r.ok) throw new Error(`${r.status} ${u}`);
+      return (await r.json()).items;
+    } catch (e) {
+      if (i >= 4) throw e;
+      console.log(`重試 ${i}：${e.message}`);
+      await new Promise(res => setTimeout(res, 5000 * i));
+    }
+  }
+};
 // 新抓到的淨值筆數比原本少很多時中止，避免把殘缺資料發布出去
 function guard(name, oldLen, info) {
   if (!info || !Array.isArray(info.nav) || info.nav.length < oldLen - 5) throw new Error(`${name} 淨值資料異常：原有 ${oldLen} 筆，新抓 ${info?.nav?.length} 筆`);
