@@ -1,5 +1,5 @@
 // 由資料整理腳本產生：淨值計算至 2026/11/20，持股與配置為 2026 年 9–10 月月報
-const AS_OF = {"updated":"2026-11-21","reports":"2026 年 9～10 月","end":"2026-11-20","lagging":[{"key":"franklin","short":"富蘭克林穩定月收益","end":"2026-11-19"},{"key":"pimco","short":"PIMCO 收益增長","end":"2026-11-19"},{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-19"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-19"}]};
+const AS_OF = {"updated":"2026-11-22","reports":"2026 年 9～10 月","end":"2026-11-20","lagging":[{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-19"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-19"}]};
 
 const FUNDS = [
  {
@@ -10,40 +10,40 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2015-01-09",
   "dataStart": "2015-01-08",
-  "end": "2026-11-19",
+  "end": "2026-11-20",
   "aum": 14704131037,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.0725,
-    "vol": 0.0549,
-    "sharpe": 0.63,
+    "ret": 0.0696,
+    "vol": 0.0552,
+    "sharpe": 0.57,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.09,
-    "vol": 0.0615,
-    "sharpe": 0.75,
+    "ret": 0.0873,
+    "vol": 0.0616,
+    "sharpe": 0.7,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.0464,
-    "vol": 0.0763,
-    "sharpe": 0.08,
+    "ret": 0.045,
+    "vol": 0.0764,
+    "sharpe": 0.07,
     "rf": 0.0399
    },
    "10": {
-    "ret": 0.0528,
+    "ret": 0.0521,
     "vol": 0.0882,
-    "sharpe": 0.31,
+    "sharpe": 0.3,
     "rf": 0.0254
    },
    "si": {
-    "cum": 0.635,
+    "cum": 0.624,
     "vol": 0.0901,
-    "months": 142.3
+    "months": 142.4
    }
   },
   "mdd3": {
@@ -69,7 +69,7 @@ const FUNDS = [
    "2023": 0.0705,
    "2024": 0.0606,
    "2025": 0.1087,
-   "2026": 0.0446
+   "2026": 0.0376
   },
   "sectors": [
    [
@@ -982,29 +982,29 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2023-11-30",
   "dataStart": "2023-10-27",
-  "end": "2026-11-19",
+  "end": "2026-11-20",
   "aum": 20583071256,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.1031,
-    "vol": 0.0977,
-    "sharpe": 0.67,
+    "ret": 0.0921,
+    "vol": 0.0991,
+    "sharpe": 0.55,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.1481,
-    "vol": 0.0904,
-    "sharpe": 1.15,
+    "ret": 0.139,
+    "vol": 0.0911,
+    "sharpe": 1.04,
     "rf": 0.0442
    },
    "5": null,
    "10": null,
    "si": {
-    "cum": 0.6184,
-    "vol": 0.0906,
+    "cum": 0.5881,
+    "vol": 0.0913,
     "months": 36.8
    }
   },
@@ -1023,7 +1023,7 @@ const FUNDS = [
   "cal": {
    "2024": 0.1195,
    "2025": 0.2084,
-   "2026": 0.0632
+   "2026": 0.0433
   },
   "sectors": [
    [
@@ -2226,4 +2226,4 @@ const FUNDS = [
  }
 ];
 
-const CORR = {"franklin":{"franklin":1,"schroder":0.69,"gaf":0.71,"janus":0.75,"pimco":0.84,"sgehi":0.71,"tw50":0.32,"twhdlv":0.34,"leaders":0.35,"yuantami":null},"schroder":{"franklin":0.69,"schroder":1,"gaf":0.91,"janus":0.74,"pimco":0.82,"sgehi":0.84,"tw50":0.69,"twhdlv":0.56,"leaders":0.61,"yuantami":null},"gaf":{"franklin":0.71,"schroder":0.91,"gaf":1,"janus":0.83,"pimco":0.88,"sgehi":0.9,"tw50":0.64,"twhdlv":0.49,"leaders":0.62,"yuantami":null},"janus":{"franklin":0.75,"schroder":0.74,"gaf":0.83,"janus":1,"pimco":0.91,"sgehi":0.76,"tw50":0.51,"twhdlv":0.37,"leaders":0.58,"yuantami":null},"pimco":{"franklin":0.84,"schroder":0.82,"gaf":0.88,"janus":0.91,"pimco":1,"sgehi":0.83,"tw50":0.52,"twhdlv":0.44,"leaders":0.6,"yuantami":null},"sgehi":{"franklin":0.71,"schroder":0.84,"gaf":0.9,"janus":0.76,"pimco":0.83,"sgehi":1,"tw50":0.62,"twhdlv":0.58,"leaders":0.52,"yuantami":null},"tw50":{"franklin":0.32,"schroder":0.69,"gaf":0.64,"janus":0.51,"pimco":0.52,"sgehi":0.62,"tw50":1,"twhdlv":0.71,"leaders":0.63,"yuantami":null},"twhdlv":{"franklin":0.34,"schroder":0.56,"gaf":0.49,"janus":0.37,"pimco":0.44,"sgehi":0.58,"tw50":0.71,"twhdlv":1,"leaders":0.41,"yuantami":null},"leaders":{"franklin":0.35,"schroder":0.61,"gaf":0.62,"janus":0.58,"pimco":0.6,"sgehi":0.52,"tw50":0.63,"twhdlv":0.41,"leaders":1,"yuantami":null},"yuantami":{"franklin":null,"schroder":null,"gaf":null,"janus":null,"pimco":null,"sgehi":null,"tw50":null,"twhdlv":null,"leaders":null,"yuantami":null}};
+const CORR = {"franklin":{"franklin":1,"schroder":0.7,"gaf":0.71,"janus":0.76,"pimco":0.84,"sgehi":0.72,"tw50":0.35,"twhdlv":0.37,"leaders":0.36,"yuantami":null},"schroder":{"franklin":0.7,"schroder":1,"gaf":0.91,"janus":0.74,"pimco":0.83,"sgehi":0.84,"tw50":0.69,"twhdlv":0.56,"leaders":0.61,"yuantami":null},"gaf":{"franklin":0.71,"schroder":0.91,"gaf":1,"janus":0.83,"pimco":0.88,"sgehi":0.9,"tw50":0.64,"twhdlv":0.49,"leaders":0.62,"yuantami":null},"janus":{"franklin":0.76,"schroder":0.74,"gaf":0.83,"janus":1,"pimco":0.91,"sgehi":0.76,"tw50":0.51,"twhdlv":0.37,"leaders":0.58,"yuantami":null},"pimco":{"franklin":0.84,"schroder":0.83,"gaf":0.88,"janus":0.91,"pimco":1,"sgehi":0.84,"tw50":0.56,"twhdlv":0.48,"leaders":0.61,"yuantami":null},"sgehi":{"franklin":0.72,"schroder":0.84,"gaf":0.9,"janus":0.76,"pimco":0.84,"sgehi":1,"tw50":0.62,"twhdlv":0.58,"leaders":0.52,"yuantami":null},"tw50":{"franklin":0.35,"schroder":0.69,"gaf":0.64,"janus":0.51,"pimco":0.56,"sgehi":0.62,"tw50":1,"twhdlv":0.71,"leaders":0.63,"yuantami":null},"twhdlv":{"franklin":0.37,"schroder":0.56,"gaf":0.49,"janus":0.37,"pimco":0.48,"sgehi":0.58,"tw50":0.71,"twhdlv":1,"leaders":0.41,"yuantami":null},"leaders":{"franklin":0.36,"schroder":0.61,"gaf":0.62,"janus":0.58,"pimco":0.61,"sgehi":0.52,"tw50":0.63,"twhdlv":0.41,"leaders":1,"yuantami":null},"yuantami":{"franklin":null,"schroder":null,"gaf":null,"janus":null,"pimco":null,"sgehi":null,"tw50":null,"twhdlv":null,"leaders":null,"yuantami":null}};
