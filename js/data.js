@@ -1,5 +1,5 @@
-// 由資料整理腳本產生：淨值計算至 2026/11/23，持股與配置為 2026 年 9–10 月月報
-const AS_OF = {"updated":"2026-11-24","reports":"2026 年 9～10 月","end":"2026-11-23","lagging":[{"key":"franklin","short":"富蘭克林穩定月收益","end":"2026-11-20"},{"key":"janus","short":"駿利亨德森平衡","end":"2026-11-20"},{"key":"pimco","short":"PIMCO 收益增長","end":"2026-11-20"},{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-20"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-20"}]};
+// 由資料整理腳本產生：淨值計算至 2026/11/24，持股與配置為 2026 年 9–10 月月報
+const AS_OF = {"updated":"2026-11-25","reports":"2026 年 9～10 月","end":"2026-11-24","lagging":[{"key":"pimco","short":"PIMCO 收益增長","end":"2026-11-23"},{"key":"leaders","short":"元大全球優質龍頭平衡","end":"2026-11-23"},{"key":"yuantami","short":"元大優質收益成長多重資產","end":"2026-11-23"}]};
 
 const FUNDS = [
  {
@@ -10,40 +10,40 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2015-01-09",
   "dataStart": "2015-01-08",
-  "end": "2026-11-20",
+  "end": "2026-11-24",
   "aum": 14704131037,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.0696,
-    "vol": 0.0552,
-    "sharpe": 0.57,
+    "ret": 0.0728,
+    "vol": 0.0558,
+    "sharpe": 0.62,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.0873,
-    "vol": 0.0616,
-    "sharpe": 0.7,
+    "ret": 0.0909,
+    "vol": 0.0619,
+    "sharpe": 0.75,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.045,
-    "vol": 0.0764,
-    "sharpe": 0.07,
-    "rf": 0.0399
+    "ret": 0.0463,
+    "vol": 0.0765,
+    "sharpe": 0.08,
+    "rf": 0.04
    },
    "10": {
-    "ret": 0.0521,
-    "vol": 0.0882,
-    "sharpe": 0.3,
-    "rf": 0.0254
+    "ret": 0.0526,
+    "vol": 0.0883,
+    "sharpe": 0.31,
+    "rf": 0.0255
    },
    "si": {
-    "cum": 0.624,
+    "cum": 0.644,
     "vol": 0.0901,
-    "months": 142.4
+    "months": 142.5
    }
   },
   "mdd3": {
@@ -69,7 +69,7 @@ const FUNDS = [
    "2023": 0.0705,
    "2024": 0.0606,
    "2025": 0.1087,
-   "2026": 0.0376
+   "2026": 0.0503
   },
   "sectors": [
    [
@@ -258,38 +258,38 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2015-03-11",
   "dataStart": "2016-09-19",
-  "end": "2026-11-23",
+  "end": "2026-11-24",
   "aum": 4738261171,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.078,
-    "vol": 0.0974,
-    "sharpe": 0.41,
+    "ret": 0.0829,
+    "vol": 0.0976,
+    "sharpe": 0.46,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.1256,
-    "vol": 0.0948,
-    "sharpe": 0.86,
+    "ret": 0.1283,
+    "vol": 0.0949,
+    "sharpe": 0.89,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.0511,
+    "ret": 0.0535,
     "vol": 0.1123,
-    "sharpe": 0.1,
+    "sharpe": 0.12,
     "rf": 0.04
    },
    "10": {
-    "ret": 0.0587,
+    "ret": 0.0593,
     "vol": 0.1036,
-    "sharpe": 0.32,
+    "sharpe": 0.33,
     "rf": 0.0255
    },
    "si": {
-    "cum": 0.7588,
+    "cum": 0.7716,
     "vol": 0.1028,
     "months": 122.1
    }
@@ -316,7 +316,7 @@ const FUNDS = [
    "2023": 0.1525,
    "2024": 0.076,
    "2025": 0.2166,
-   "2026": 0.0337
+   "2026": 0.0412
   },
   "sectors": [
    [
@@ -480,40 +480,40 @@ const FUNDS = [
   "cur": "USD",
   "inception": "1997-01-03",
   "dataStart": "1997-01-02",
-  "end": "2026-11-23",
+  "end": "2026-11-24",
   "aum": 18785467063,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.0406,
-    "vol": 0.1045,
-    "sharpe": 0.02,
+    "ret": 0.0325,
+    "vol": 0.1042,
+    "sharpe": -0.05,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.1014,
+    "ret": 0.101,
     "vol": 0.1013,
-    "sharpe": 0.57,
+    "sharpe": 0.56,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.0365,
-    "vol": 0.1095,
-    "sharpe": -0.03,
+    "ret": 0.0383,
+    "vol": 0.1094,
+    "sharpe": -0.02,
     "rf": 0.04
    },
    "10": {
-    "ret": 0.0639,
+    "ret": 0.0635,
     "vol": 0.1018,
-    "sharpe": 0.38,
+    "sharpe": 0.37,
     "rf": 0.0255
    },
    "si": {
-    "cum": 5.5932,
+    "cum": 5.5939,
     "vol": 0.0996,
-    "months": 358.6
+    "months": 358.7
    }
   },
   "mdd3": {
@@ -557,7 +557,7 @@ const FUNDS = [
    "2023": 0.1252,
    "2024": 0.0882,
    "2025": 0.174,
-   "2026": -0.0044
+   "2026": -0.0043
   },
   "sectors": [
    [
@@ -728,40 +728,40 @@ const FUNDS = [
   "cur": "USD",
   "inception": "1998-12-24",
   "dataStart": "2001-08-27",
-  "end": "2026-11-20",
+  "end": "2026-11-24",
   "aum": 11169715951,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": -0.0006,
-    "vol": 0.1012,
-    "sharpe": -0.38,
+    "ret": 0.0035,
+    "vol": 0.1036,
+    "sharpe": -0.33,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.0936,
-    "vol": 0.1039,
-    "sharpe": 0.48,
+    "ret": 0.1011,
+    "vol": 0.1049,
+    "sharpe": 0.54,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.0341,
-    "vol": 0.114,
-    "sharpe": -0.05,
-    "rf": 0.0399
+    "ret": 0.0388,
+    "vol": 0.1145,
+    "sharpe": -0.01,
+    "rf": 0.04
    },
    "10": {
-    "ret": 0.0794,
-    "vol": 0.1126,
-    "sharpe": 0.48,
-    "rf": 0.0254
+    "ret": 0.0809,
+    "vol": 0.1128,
+    "sharpe": 0.49,
+    "rf": 0.0255
    },
    "si": {
-    "cum": 3.3825,
-    "vol": 0.1037,
-    "months": 302.8
+    "cum": 3.4746,
+    "vol": 0.1038,
+    "months": 302.9
    }
   },
   "mdd3": {
@@ -801,7 +801,7 @@ const FUNDS = [
    "2023": 0.1361,
    "2024": 0.1366,
    "2025": 0.1341,
-   "2026": -0.0267
+   "2026": -0.0062
   },
   "sectors": [
    [
@@ -982,30 +982,30 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2023-11-30",
   "dataStart": "2023-10-27",
-  "end": "2026-11-20",
+  "end": "2026-11-23",
   "aum": 20583071256,
   "aumCur": "USD",
   "category": "美元平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.0921,
-    "vol": 0.0991,
-    "sharpe": 0.55,
+    "ret": 0.113,
+    "vol": 0.102,
+    "sharpe": 0.73,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.139,
-    "vol": 0.0911,
-    "sharpe": 1.04,
+    "ret": 0.1485,
+    "vol": 0.0922,
+    "sharpe": 1.13,
     "rf": 0.0442
    },
    "5": null,
    "10": null,
    "si": {
-    "cum": 0.5881,
-    "vol": 0.0913,
-    "months": 36.8
+    "cum": 0.6281,
+    "vol": 0.0922,
+    "months": 36.9
    }
   },
   "mdd3": {
@@ -1023,7 +1023,7 @@ const FUNDS = [
   "cal": {
    "2024": 0.1195,
    "2025": 0.2084,
-   "2026": 0.0433
+   "2026": 0.0696
   },
   "sectors": [
    [
@@ -1184,40 +1184,40 @@ const FUNDS = [
   "cur": "USD",
   "inception": "2006-10-13",
   "dataStart": "2013-07-29",
-  "end": "2026-11-23",
+  "end": "2026-11-24",
   "aum": 17723116073,
   "aumCur": "USD",
   "category": "環球股票收益",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.1235,
-    "vol": 0.0899,
-    "sharpe": 0.95,
+    "ret": 0.1208,
+    "vol": 0.0898,
+    "sharpe": 0.92,
     "rf": 0.0381
    },
    "3": {
-    "ret": 0.1404,
+    "ret": 0.1413,
     "vol": 0.1045,
-    "sharpe": 0.92,
+    "sharpe": 0.93,
     "rf": 0.0442
    },
    "5": {
-    "ret": 0.0765,
+    "ret": 0.078,
     "vol": 0.121,
-    "sharpe": 0.3,
+    "sharpe": 0.31,
     "rf": 0.04
    },
    "10": {
-    "ret": 0.0866,
+    "ret": 0.0869,
     "vol": 0.1216,
     "sharpe": 0.5,
     "rf": 0.0255
    },
    "si": {
-    "cum": 1.5322,
+    "cum": 1.5398,
     "vol": 0.116,
-    "months": 159.8
+    "months": 159.9
    }
   },
   "mdd3": {
@@ -1245,7 +1245,7 @@ const FUNDS = [
    "2023": 0.1576,
    "2024": 0.1666,
    "2025": 0.1259,
-   "2026": 0.087
+   "2026": 0.0902
   },
   "sectors": [
    [
@@ -1429,34 +1429,34 @@ const FUNDS = [
   "cur": "TWD",
   "inception": "2019-06-10",
   "dataStart": "2019-06-10",
-  "end": "2026-11-23",
+  "end": "2026-11-24",
   "aum": 96043568214,
   "aumCur": "TWD",
   "category": "台灣大型股票",
   "risk": "RR4",
   "per": {
    "1": {
-    "ret": 0.4839,
-    "vol": 0.3201,
-    "sharpe": 1.46,
+    "ret": 0.6291,
+    "vol": 0.3325,
+    "sharpe": 1.84,
     "rf": 0.017
    },
    "3": {
-    "ret": 0.4064,
-    "vol": 0.2786,
-    "sharpe": 1.4,
-    "rf": 0.0168
+    "ret": 0.4505,
+    "vol": 0.2835,
+    "sharpe": 1.53,
+    "rf": 0.0169
    },
    "5": {
-    "ret": 0.2274,
-    "vol": 0.2474,
-    "sharpe": 0.86,
+    "ret": 0.2517,
+    "vol": 0.2507,
+    "sharpe": 0.94,
     "rf": 0.0152
    },
    "10": null,
    "si": {
-    "cum": 4.302,
-    "vol": 0.2305,
+    "cum": 4.811,
+    "vol": 0.2329,
     "months": 89.5
    }
   },
@@ -1479,7 +1479,7 @@ const FUNDS = [
    "2023": 0.2868,
    "2024": 0.4716,
    "2025": 0.3656,
-   "2026": 0.3365
+   "2026": 0.4648
   },
   "sectors": [
    [
@@ -1630,24 +1630,24 @@ const FUNDS = [
   "cur": "TWD",
   "inception": "2024-01-23",
   "dataStart": "2024-01-23",
-  "end": "2026-11-23",
+  "end": "2026-11-24",
   "aum": 1142271960,
   "aumCur": "TWD",
   "category": "台灣大型股票",
   "risk": "RR4",
   "per": {
    "1": {
-    "ret": 0.2524,
-    "vol": 0.1349,
-    "sharpe": 1.74,
+    "ret": 0.3046,
+    "vol": 0.1439,
+    "sharpe": 2,
     "rf": 0.017
    },
    "3": null,
    "5": null,
    "10": null,
    "si": {
-    "cum": 0.464,
-    "vol": 0.1372,
+    "cum": 0.542,
+    "vol": 0.1405,
     "months": 34
    }
   },
@@ -1665,7 +1665,7 @@ const FUNDS = [
   },
   "cal": {
    "2025": 0.036,
-   "2026": 0.2109
+   "2026": 0.2754
   },
   "sectors": [
    [
@@ -1804,30 +1804,30 @@ const FUNDS = [
   "cur": "TWD",
   "inception": "2022-08-24",
   "dataStart": "2022-08-24",
-  "end": "2026-11-20",
+  "end": "2026-11-23",
   "aum": 16408137449,
   "aumCur": "TWD",
   "category": "新台幣平衡型股債混合",
   "risk": "RR3",
   "per": {
    "1": {
-    "ret": 0.0305,
-    "vol": 0.1883,
-    "sharpe": 0.07,
+    "ret": 0.0557,
+    "vol": 0.1897,
+    "sharpe": 0.2,
     "rf": 0.017
    },
    "3": {
-    "ret": 0.1769,
-    "vol": 0.1528,
-    "sharpe": 1.05,
+    "ret": 0.1863,
+    "vol": 0.1532,
+    "sharpe": 1.11,
     "rf": 0.0168
    },
    "5": null,
    "10": null,
    "si": {
-    "cum": 0.925,
-    "vol": 0.1373,
-    "months": 50.9
+    "cum": 0.97,
+    "vol": 0.1376,
+    "months": 51
    }
   },
   "mdd3": {
@@ -1846,7 +1846,7 @@ const FUNDS = [
    "2023": 0.1996,
    "2024": 0.2866,
    "2025": 0.2978,
-   "2026": -0.0312
+   "2026": -0.0086
   },
   "sectors": [
    [
@@ -2027,7 +2027,7 @@ const FUNDS = [
   "cur": "TWD",
   "inception": "2026-07-16",
   "dataStart": "2026-07-16",
-  "end": "2026-11-20",
+  "end": "2026-11-23",
   "aum": 37247264365,
   "aumCur": "TWD",
   "category": "新台幣平衡型股債混合",
@@ -2038,9 +2038,9 @@ const FUNDS = [
    "5": null,
    "10": null,
    "si": {
-    "cum": -0.1954,
-    "vol": 0.2158,
-    "months": 4.2
+    "cum": -0.1713,
+    "vol": 0.2199,
+    "months": 4.3
    }
   },
   "mdd3": {
@@ -2226,4 +2226,4 @@ const FUNDS = [
  }
 ];
 
-const CORR = {"franklin":{"franklin":1,"schroder":0.7,"gaf":0.71,"janus":0.76,"pimco":0.84,"sgehi":0.72,"tw50":0.35,"twhdlv":0.37,"leaders":0.39,"yuantami":null},"schroder":{"franklin":0.7,"schroder":1,"gaf":0.91,"janus":0.74,"pimco":0.83,"sgehi":0.84,"tw50":0.69,"twhdlv":0.56,"leaders":0.63,"yuantami":null},"gaf":{"franklin":0.71,"schroder":0.91,"gaf":1,"janus":0.83,"pimco":0.88,"sgehi":0.9,"tw50":0.64,"twhdlv":0.49,"leaders":0.62,"yuantami":null},"janus":{"franklin":0.76,"schroder":0.74,"gaf":0.83,"janus":1,"pimco":0.91,"sgehi":0.76,"tw50":0.51,"twhdlv":0.37,"leaders":0.6,"yuantami":null},"pimco":{"franklin":0.84,"schroder":0.83,"gaf":0.88,"janus":0.91,"pimco":1,"sgehi":0.84,"tw50":0.56,"twhdlv":0.48,"leaders":0.63,"yuantami":null},"sgehi":{"franklin":0.72,"schroder":0.84,"gaf":0.9,"janus":0.76,"pimco":0.84,"sgehi":1,"tw50":0.62,"twhdlv":0.58,"leaders":0.53,"yuantami":null},"tw50":{"franklin":0.35,"schroder":0.69,"gaf":0.64,"janus":0.51,"pimco":0.56,"sgehi":0.62,"tw50":1,"twhdlv":0.71,"leaders":0.66,"yuantami":null},"twhdlv":{"franklin":0.37,"schroder":0.56,"gaf":0.49,"janus":0.37,"pimco":0.48,"sgehi":0.58,"tw50":0.71,"twhdlv":1,"leaders":0.46,"yuantami":null},"leaders":{"franklin":0.39,"schroder":0.63,"gaf":0.62,"janus":0.6,"pimco":0.63,"sgehi":0.53,"tw50":0.66,"twhdlv":0.46,"leaders":1,"yuantami":null},"yuantami":{"franklin":null,"schroder":null,"gaf":null,"janus":null,"pimco":null,"sgehi":null,"tw50":null,"twhdlv":null,"leaders":null,"yuantami":null}};
+const CORR = {"franklin":{"franklin":1,"schroder":0.69,"gaf":0.7,"janus":0.76,"pimco":0.84,"sgehi":0.72,"tw50":0.36,"twhdlv":0.38,"leaders":0.39,"yuantami":null},"schroder":{"franklin":0.69,"schroder":1,"gaf":0.91,"janus":0.74,"pimco":0.82,"sgehi":0.84,"tw50":0.68,"twhdlv":0.55,"leaders":0.62,"yuantami":null},"gaf":{"franklin":0.7,"schroder":0.91,"gaf":1,"janus":0.83,"pimco":0.87,"sgehi":0.9,"tw50":0.62,"twhdlv":0.48,"leaders":0.62,"yuantami":null},"janus":{"franklin":0.76,"schroder":0.74,"gaf":0.83,"janus":1,"pimco":0.92,"sgehi":0.75,"tw50":0.52,"twhdlv":0.39,"leaders":0.6,"yuantami":null},"pimco":{"franklin":0.84,"schroder":0.82,"gaf":0.87,"janus":0.92,"pimco":1,"sgehi":0.83,"tw50":0.57,"twhdlv":0.5,"leaders":0.63,"yuantami":null},"sgehi":{"franklin":0.72,"schroder":0.84,"gaf":0.9,"janus":0.75,"pimco":0.83,"sgehi":1,"tw50":0.61,"twhdlv":0.57,"leaders":0.53,"yuantami":null},"tw50":{"franklin":0.36,"schroder":0.68,"gaf":0.62,"janus":0.52,"pimco":0.57,"sgehi":0.61,"tw50":1,"twhdlv":0.73,"leaders":0.66,"yuantami":null},"twhdlv":{"franklin":0.38,"schroder":0.55,"gaf":0.48,"janus":0.39,"pimco":0.5,"sgehi":0.57,"tw50":0.73,"twhdlv":1,"leaders":0.46,"yuantami":null},"leaders":{"franklin":0.39,"schroder":0.62,"gaf":0.62,"janus":0.6,"pimco":0.63,"sgehi":0.53,"tw50":0.66,"twhdlv":0.46,"leaders":1,"yuantami":null},"yuantami":{"franklin":null,"schroder":null,"gaf":null,"janus":null,"pimco":null,"sgehi":null,"tw50":null,"twhdlv":null,"leaders":null,"yuantami":null}};
