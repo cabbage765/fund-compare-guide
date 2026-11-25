@@ -121,6 +121,7 @@ const NEWS = [
       "9/30 → 10/31：NVIDIA 4.73% → 4.28%，Apple 3.55% → 3.27%，Alphabet 3.27% → 2.13%，Cisco 2.41% → 2.11%，Accenture 1.81% → 2.11%。",
       "新進前十大：Procter & Gamble 1.93%、Samsung Electronics 1.49%；Fortinet、Analog Devices 退出。前十大合計 22.5%。",
       "持股 341 檔，基金規模約 177 億美元；官方 3 年波動率 8.23%。",
+      "國家（9/30 → 10/31）：美國 62.2% → 63.3%、日本 8.1% → 5.7%、加拿大 2.7% → 4.5%、中國 6.8% → 7.0%；現金及衍生性商品 10.0% → 10.8%。",
       "量化模型每月調整，未找到經理人文字評論。",
     ],
     source: { name: "貝萊德 2026/10/31 月報", url: "https://www.blackrock.com/sg/en/literature/fact-sheet/bgf-systematic-global-equity-high-income-fund-class-a2-usd-factsheet-lu0265550359-sg-en-individual.pdf" },
