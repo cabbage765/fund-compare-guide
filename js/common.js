@@ -95,11 +95,20 @@ function initTips() {
 }
 
 // 橫向 100% 堆疊條（股債比、國家等）
+// 各段四捨五入後總和不一定剛好 100（例如 64.5＋35.5 → 65＋36），用最大餘數法讓整數標籤加總為 100
+function roundTo100(values) {
+  const floors = values.map(Math.floor), left = 100 - floors.reduce((a, b) => a + b, 0);
+  values.map((v, i) => [v - floors[i], i]).sort((a, b) => b[0] - a[0]).slice(0, Math.max(0, left)).forEach(([, i]) => { floors[i]++; });
+  return floors;
+}
+
 function stackRow(f, parts, palette) {
-  const total = parts.reduce((s, p) => s + Math.max(0, p[1]), 0);
-  const segs = parts.filter(p => p[1] > 0).map(([k, v], i) => {
-    const w = v / total * 100;
-    return `<span style="width:${w}%;background:${palette[k] || palette._[i % palette._.length]}" data-tip="<b>${f.short}</b><br>${k}：${v.toFixed(1)}%">${w >= 9 ? v.toFixed(0) + "%" : ""}</span>`;
+  const pos = parts.filter(p => p[1] > 0);
+  const total = pos.reduce((s, p) => s + p[1], 0);
+  const widths = pos.map(p => p[1] / total * 100), labels = roundTo100(widths);
+  const segs = pos.map(([k, v], i) => {
+    const w = widths[i];
+    return `<span style="width:${w}%;background:${palette[k] || palette._[i % palette._.length]}" data-tip="<b>${f.short}</b><br>${k}：${v.toFixed(1)}%">${w >= 9 ? labels[i] + "%" : ""}</span>`;
   }).join("");
   return `<div class="stack-row"><div class="nm">${fundLink(f)}</div><div class="stack">${segs}</div></div>`;
 }
