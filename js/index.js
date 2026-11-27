@@ -4,8 +4,28 @@ renderChrome("index.html");
 document.getElementById("updated").innerHTML = `🕒 資料最後更新：<b>${ymd(AS_OF.updated)}</b>｜淨值計算至 ${asOfText()}｜持股與配置為 ${AS_OF.reports}月報<br><span class="note">淨值與績效每天自動更新；月報資料、說明文字與最新消息於每月 1 日、16 日更新。</span>`;
 const charts = {};
 
+// ---------- 基金開關：下方所有圖表只呈現勾選的基金 ----------
+// 記住「關掉」的基金，之後新增的基金預設會顯示
+const HIDE_KEY = "fund-compare-hidden";
+const hidden = new Set();
+try { const h = JSON.parse(localStorage.getItem(HIDE_KEY) || "[]"); if (Array.isArray(h)) h.filter(k => fundByKey[k]).forEach(k => hidden.add(k)); } catch (e) {}
+let SEL = FUNDS.filter(f => !hidden.has(f.key));
+function saveHidden() { try { localStorage.setItem(HIDE_KEY, JSON.stringify([...hidden])); } catch (e) {} }
+function drawPicker() {
+  document.getElementById("picker-chips").innerHTML = FUNDS.map(f => `<button class="chip fund-chip ${hidden.has(f.key) ? "" : "on"}" data-k="${f.key}" aria-pressed="${!hidden.has(f.key)}"><span class="dot" style="--c:${color(f)}"></span>${f.no}. ${f.short}</button>`).join("");
+  document.getElementById("picker-count").textContent = `目前顯示 ${SEL.length}／${FUNDS.length} 檔` + (SEL.length ? "" : "，請至少選一檔");
+}
+document.getElementById("picker").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.all != null) FUNDS.forEach(f => b.dataset.all === "1" ? hidden.delete(f.key) : hidden.add(f.key));
+  else if (b.dataset.k) hidden.has(b.dataset.k) ? hidden.delete(b.dataset.k) : hidden.add(b.dataset.k);
+  else return;
+  saveHidden(); renderAll();
+});
+
 // ---------- 基金卡片 ----------
-document.getElementById("cards").innerHTML = FUNDS.map(f => {
+function drawCards() {
+document.getElementById("cards").innerHTML = SEL.map(f => {
   const p = headline(f);
   return `<a class="card" href="fund.html?id=${f.key}" style="--c:${color(f)}">
     <h3>${f.no}. ${f.short}</h3>
@@ -17,7 +37,8 @@ document.getElementById("cards").innerHTML = FUNDS.map(f => {
     </div>
     <span class="more">看介紹與注意事項 →</span>
   </a>`;
-}).join("");
+}).join("") || `<p class="note">尚未選擇基金。</p>`;
+}
 
 // ---------- 報酬／波動／Sharpe ----------
 let period = 3;
@@ -31,7 +52,7 @@ periodChips.addEventListener("click", e => {
 });
 
 function barChart(id, metric, fmt) {
-  const rows = FUNDS.filter(f => f.per[period]).map(f => ({ f, v: f.per[period][metric] }));
+  const rows = SEL.filter(f => f.per[period]).map(f => ({ f, v: f.per[period][metric] }));
   rows.sort((a, b) => metric === "vol" ? a.v - b.v : b.v - a.v);
   const data = {
     labels: rows.map(r => r.f.short),
@@ -52,10 +73,9 @@ function drawPerf() {
   barChart("c-ret", "ret", v => v.toFixed(1) + "%");
   barChart("c-vol", "vol", v => v.toFixed(1) + "%");
   barChart("c-sharpe", "sharpe", v => (+v).toFixed(2));
-  const miss = FUNDS.filter(f => !f.per[period]).map(f => f.short);
+  const miss = SEL.filter(f => !f.per[period]).map(f => f.short);
   document.getElementById("perf-missing").textContent = miss.length ? `成立未滿 ${period} 年、不列入：${miss.join("、")}` : "";
 }
-drawPerf();
 
 // 完整數據表（可排序）
 let perfSort = null;
@@ -64,10 +84,10 @@ function drawPerfTable() {
   for (const m of ["ret", "vol", "sharpe"]) for (const n of PERIODS) cols.push({ m, n });
   const best = {};
   for (const c of cols) {
-    const vals = FUNDS.map(f => f.per[c.n] && f.per[c.n][c.m]).filter(v => v != null);
+    const vals = SEL.map(f => f.per[c.n] && f.per[c.n][c.m]).filter(v => v != null);
     best[c.m + c.n] = c.m === "vol" ? Math.min(...vals) : Math.max(...vals);
   }
-  let rows = FUNDS.slice();
+  let rows = SEL.slice();
   if (perfSort) {
     const [m, n] = perfSort;
     rows.sort((a, b) => {
@@ -95,7 +115,6 @@ document.getElementById("perf-table").addEventListener("click", e => {
   perfSort = perfSort && perfSort[0] === m && perfSort[1] === +n ? null : [m, +n];
   drawPerfTable();
 });
-drawPerfTable();
 
 // ---------- 淨值走勢 ----------
 const shiftYears = (d, n) => { const t = new Date(d + "T00:00:00Z"); t.setUTCFullYear(t.getUTCFullYear() - n); return t.toISOString().slice(0, 10); };
@@ -103,7 +122,6 @@ let navPeriod = 5;
 const navOn = new Set(FUNDS.map(f => f.key));
 
 function fundChips(el, set, redraw) {
-  el.innerHTML = FUNDS.map(f => `<button class="chip fund-chip ${set.has(f.key) ? "on" : ""}" data-k="${f.key}"><span class="dot" style="--c:${color(f)}"></span>${f.short}</button>`).join("");
   el.addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
     const k = b.dataset.k;
@@ -111,6 +129,7 @@ function fundChips(el, set, redraw) {
     b.classList.toggle("on", set.has(k));
     redraw();
   });
+  return () => { el.innerHTML = SEL.map(f => `<button class="chip fund-chip ${set.has(f.key) ? "on" : ""}" data-k="${f.key}"><span class="dot" style="--c:${color(f)}"></span>${f.short}</button>`).join(""); };
 }
 
 function rebased(f, from) {
@@ -123,7 +142,7 @@ function rebased(f, from) {
 
 function drawNav() {
   const end = AS_OF.end, from = shiftYears(end, navPeriod);
-  const datasets = FUNDS.filter(f => navOn.has(f.key)).map(f => {
+  const datasets = SEL.filter(f => navOn.has(f.key)).map(f => {
     const pts = rebased(f, from);
     return pts && { label: f.short, data: pts, borderColor: color(f), backgroundColor: color(f), borderDash: dash(f), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0 };
   }).filter(Boolean);
@@ -153,8 +172,7 @@ navChips.addEventListener("click", e => {
   navChips.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
   drawNav();
 });
-fundChips(document.getElementById("nav-funds"), navOn, drawNav);
-drawNav();
+const drawNavChips = fundChips(document.getElementById("nav-funds"), navOn, drawNav);
 
 // ---------- 最大回撤 ----------
 function ddCell(d) {
@@ -162,16 +180,18 @@ function ddCell(d) {
   return `<td class="heat" style="${heatBg(-d.dd, 0.4, "235,104,52")}">${pct(d.dd)}</td>
     <td style="text-align:left">${ym(d.peak)} → ${ym(d.trough)}<span class="sub">${rec}</span></td>`;
 }
+function drawMdd() {
 document.getElementById("mdd-table").innerHTML = `
   <thead><tr class="group"><th></th><th colspan="2">近 3 年</th><th colspan="2">成立以來（資料期間）</th><th></th></tr>
   <tr><th>基金</th><th>最大回撤</th><th style="text-align:left">高點 → 低點（年月）</th><th>最大回撤</th><th style="text-align:left">高點 → 低點（年月）</th><th style="text-align:left">資料起點</th></tr></thead>
-  <tbody>${FUNDS.map(f => `<tr><td class="fund">${fundLink(f)}</td>${ddCell(f.mdd3)}${ddCell(f.mddAll)}
+  <tbody>${SEL.map(f => `<tr><td class="fund">${fundLink(f)}</td>${ddCell(f.mdd3)}${ddCell(f.mddAll)}
     <td style="text-align:left">${ymd(f.dataStart)}<span class="sub">成立 ${ymd(f.inception)}${f.dataNote ? "（" + f.dataNote + "）" : f.dataStart > f.inception ? "（較早資料未取得）" : ""}</span></td></tr>`).join("")}</tbody>`;
+}
 
 const uwOn = new Set(FUNDS.map(f => f.key));
 function drawUw() {
   const from = shiftYears(AS_OF.end, 3);
-  const datasets = FUNDS.filter(f => uwOn.has(f.key)).map(f => {
+  const datasets = SEL.filter(f => uwOn.has(f.key)).map(f => {
     const s = SERIES[f.key].filter(p => p[0] >= from);
     let peak = -Infinity;
     const data = s.map(([d, v]) => { peak = Math.max(peak, v); return { x: d, y: (v / peak - 1) * 100 }; });
@@ -188,24 +208,24 @@ function drawUw() {
     },
   });
 }
-fundChips(document.getElementById("uw-funds"), uwOn, drawUw);
-drawUw();
+const drawUwChips = fundChips(document.getElementById("uw-funds"), uwOn, drawUw);
 
 // ---------- 曆年報酬 ----------
-(() => {
-  const years = [...new Set(FUNDS.flatMap(f => Object.keys(f.cal)))].map(Number).filter(y => y >= 2016).sort();
+function drawCal() {
+  const years = [...new Set(SEL.flatMap(f => Object.keys(f.cal)))].map(Number).filter(y => y >= 2016).sort();
   document.getElementById("cal-table").innerHTML = `
     <thead><tr><th>基金</th>${years.map(y => `<th>${y}${y === 2026 ? `<span class='sub'>至 ${md(AS_OF.end)}</span>` : ""}</th>`).join("")}</tr></thead>
-    <tbody>${FUNDS.map(f => `<tr><td class="fund">${fundLink(f)}</td>${years.map(y => {
+    <tbody>${SEL.map(f => `<tr><td class="fund">${fundLink(f)}</td>${years.map(y => {
       const v = f.cal[y];
       return v == null ? `<td class="na">—</td>` : `<td class="heat" style="${divBg(v, 0.5)}" data-tip="<b>${f.short}</b><br>${y} 年：${pct(v, 1, true)}">${pct(v, 1, true)}</td>`;
     }).join("")}</tr>`).join("")}</tbody>`;
-})();
+}
 
 // ---------- 內扣費用 ----------
-(() => {
-  const rows = FUNDS.slice().sort((a, b) => b.fee.total - a.fee.total);
-  new Chart(document.getElementById("c-fee"), {
+function drawFee() {
+  const rows = SEL.slice().sort((a, b) => b.fee.total - a.fee.total);
+  if (charts.fee) charts.fee.destroy();
+  charts.fee = new Chart(document.getElementById("c-fee"), {
     type: "bar",
     data: { labels: rows.map(f => f.short), datasets: [{ data: rows.map(f => f.fee.total), backgroundColor: rows.map(color), borderRadius: 4, barThickness: 16 }] },
     options: {
@@ -217,10 +237,10 @@ drawUw();
   document.getElementById("fee-table").innerHTML = `
     <thead><tr><th>基金</th><th>帳列費用率</th><th>整體內扣</th></tr></thead>
     <tbody>${rows.map(f => `<tr><td class="fund">${fundLink(f)}</td><td>${f.fee.ocf.toFixed(2)}%</td><td data-tip="${f.fee.src}"><b>${f.fee.total.toFixed(2)}%</b></td></tr>`).join("")}</tbody>`;
-})();
+}
 
 // ---------- 股債比 ----------
-(() => {
+function drawAlloc() {
   const pal = {
     "股票": cssVar("--s1"), "股票型 ETF": "#7fb0ea", "債券": cssVar("--s3"), "可轉債／股票連結票據": cssVar("--s7"), "可轉債": cssVar("--s7"),
     "原物料相關": cssVar("--s4"), "現金": "#8f9ba1", "現金及其他": "#8f9ba1", "現金及衍生性商品": "#8f9ba1", "其他": "#b9c2c6", _: ["#b9c2c6"],
@@ -228,14 +248,14 @@ drawUw();
   const keys = [["股票", "--s1"], ["債券", "--s3"], ["可轉債／股票連結票據", "--s7"], ["原物料相關", "--s4"]];
   document.getElementById("alloc-legend").innerHTML = keys.map(([k, v]) => `<span><i style="background:${cssVar(v)}"></i>${k}</span>`).join("") +
     `<span><i style="background:#7fb0ea"></i>股票型 ETF</span><span><i style="background:#8f9ba1"></i>現金（含衍生性商品）</span><span><i style="background:#b9c2c6"></i>其他</span>`;
-  document.getElementById("alloc-list").innerHTML = FUNDS.map(f => stackRow(f, f.alloc, pal)).join("") +
-    `<p class="caveat">PIMCO 收益增長以淨曝險呈現：債券 35.5% 為債券部位 54.4% 扣除 −18.9% 短天期工具淨額（期貨等衍生性商品的抵銷部位）後的數字；若以總曝險計，股＋債約 119%。</p>`;
-})();
+  document.getElementById("alloc-list").innerHTML = SEL.map(f => stackRow(f, f.alloc, pal)).join("") + (!SEL.some(f => f.key === "pimco") ? "" :
+    `<p class="caveat">PIMCO 收益增長以淨曝險呈現：債券 35.5% 為債券部位 54.4% 扣除 −18.9% 短天期工具淨額（期貨等衍生性商品的抵銷部位）後的數字；若以總曝險計，股＋債約 119%。</p>`);
+}
 
 // ---------- 債券評等 ----------
-(() => {
+function drawCredit() {
   const ratingCol = { "Aaa": 700, "Aa": 600, "A": 500, "Baa": 400 };
-  document.getElementById("credit-cards").innerHTML = FUNDS.map(f => {
+  document.getElementById("credit-cards").innerHTML = SEL.map(f => {
     const c = f.credit;
     let body = "";
     if (c.kind === "na") body = `<p class="note">${c.note}</p>`;
@@ -250,36 +270,36 @@ drawUw();
     const tag = { rating: "逐級信評", ig: "全為投資等級", sector: "債券類別", avg: "僅平均信評", none: "未揭露信評", na: "無債券" }[c.kind];
     return `<div class="panel"><h3>${fundLink(f)} <span class="badge">${tag}</span></h3>${body}</div>`;
   }).join("");
-})();
+}
 
 // ---------- 產業分布 ----------
-(() => {
+function drawSector() {
   const names = {};
-  FUNDS.forEach(f => f.sectors.forEach(([k, v]) => { names[k] = (names[k] || 0) + v; }));
+  SEL.forEach(f => f.sectors.forEach(([k, v]) => { names[k] = (names[k] || 0) + v; }));
   const cols = Object.keys(names).sort((a, b) => names[b] - names[a]);
   document.getElementById("sector-table").innerHTML = `
     <thead><tr><th class="rowh">基金</th>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead>
-    <tbody>${FUNDS.map(f => {
+    <tbody>${SEL.map(f => {
       const m = Object.fromEntries(f.sectors);
       return `<tr><td class="fund">${fundLink(f)}</td>${cols.map(c => m[c] == null ? `<td class="na">—</td>` :
         `<td class="heat" style="${heatBg(m[c], 60)}" data-tip="<b>${f.short}</b><br>${c}：占股票部位 ${m[c].toFixed(1)}%">${m[c].toFixed(1)}%</td>`).join("")}</tr>`;
     }).join("")}</tbody>`;
-})();
+}
 
 // ---------- 國家分布 ----------
-(() => {
+function drawCountry() {
   const groups = COUNTRY_GROUPS, toGroup = countryGroup;
   const pal = Object.fromEntries(groups.map(([k, v]) => [k, cssVar(v)]));
   pal["其他／現金"] = "#b9c2c6"; pal._ = ["#b9c2c6"];
   document.getElementById("country-legend").innerHTML = groups.map(([k, v]) => `<span><i style="background:${cssVar(v)}"></i>${k}</span>`).join("") + `<span><i style="background:#b9c2c6"></i>其他／現金</span>`;
-  document.getElementById("country-list").innerHTML = FUNDS.map(f => {
+  document.getElementById("country-list").innerHTML = SEL.map(f => {
     const agg = {};
     f.countries.forEach(([k, v]) => { const g = toGroup(k); agg[g] = (agg[g] || 0) + v; });
     const order = groups.map(g => g[0]).concat("其他／現金");
     return stackRow(f, order.filter(k => agg[k]).map(k => [k, agg[k]]), pal);
   }).join("");
-  document.getElementById("country-src").innerHTML = "滑過色塊可看數字。原始明細：" + FUNDS.map(f => `<br><b>${f.short}</b>：${f.countries.map(([k, v]) => `${k} ${v}%`).join("、")}（${f.countriesSrc}）`).join("");
-})();
+  document.getElementById("country-src").innerHTML = "滑過色塊可看數字。原始明細：" + SEL.map(f => `<br><b>${f.short}</b>：${f.countries.map(([k, v]) => `${k} ${v}%`).join("、")}（${f.countriesSrc}）`).join("");
+}
 
 // ---------- 重疊曝險矩陣 ----------
 function overlap(a, b) {
@@ -300,8 +320,8 @@ ovChips.addEventListener("click", e => {
   drawOverlap();
 });
 function drawOverlap() {
-  const head = `<thead><tr><th class="rowh"></th>${FUNDS.map(f => `<th data-tip="${f.short}"><span class="dot" style="--c:${color(f)}"></span>${f.no}</th>`).join("")}</tr></thead>`;
-  const body = FUNDS.map(a => `<tr><td class="fund">${fundLink(a, a.no + ". " + a.short)}</td>${FUNDS.map(b => {
+  const head = `<thead><tr><th class="rowh"></th>${SEL.map(f => `<th data-tip="${f.short}"><span class="dot" style="--c:${color(f)}"></span>${f.no}</th>`).join("")}</tr></thead>`;
+  const body = SEL.map(a => `<tr><td class="fund">${fundLink(a, a.no + ". " + a.short)}</td>${SEL.map(b => {
     if (a === b) return `<td class="self">—</td>`;
     if (ovMode === "hold") {
       const o = overlap(a, b);
@@ -317,4 +337,11 @@ function drawOverlap() {
     ? "計算方式：以發行人為單位，把兩檔基金共同持有的部位各取較小權重後加總（占基金淨值 %）。只使用月報公布的前十大持股（元大全球優質龍頭、元大優質收益成長為前 20 餘大；ETF 連結基金透視母 ETF；PIMCO 不含衍生性商品），所以是<strong>重疊程度的下限</strong>。美國公債、機構房貸債視為同一發行人。滑過格子可看共同持股明細。"
     : "計算方式：近 3 年（2023/10–2026/10）每週報酬的皮爾森相關係數；成立未滿 3 年的基金以成立以來計；元大優質收益成長多重資產成立未滿半年，樣本太短不列出。越接近 1 代表漲跌越同步、分散效果越小。台股基金與境外基金的淨值時點不同（時差），相關係數會略為低估。";
 }
-drawOverlap();
+
+function renderAll() {
+  SEL = FUNDS.filter(f => !hidden.has(f.key));
+  drawPicker(); drawCards(); drawPerf(); drawPerfTable();
+  drawNavChips(); drawNav(); drawMdd(); drawUwChips(); drawUw();
+  drawCal(); drawFee(); drawAlloc(); drawCredit(); drawSector(); drawCountry(); drawOverlap();
+}
+renderAll();

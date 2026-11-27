@@ -4,9 +4,9 @@ renderChrome("funds.html");
 const id = new URLSearchParams(location.search).get("id");
 const f = fundByKey[id] || FUNDS[0];
 const c = color(f);
-document.title = `${f.short}｜十檔基金比較`;
+document.title = `${f.short}｜十一檔基金比較`;
 
-// 在十檔中的名次（報酬、Sharpe 由高到低；波動由低到高）
+// 在十一檔中的名次（報酬、Sharpe 由高到低；波動由低到高）
 function rank(n, m) {
   const vals = FUNDS.filter(x => x.per[n]).map(x => x.per[n][m]);
   if (!f.per[n]) return "";

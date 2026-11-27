@@ -1,7 +1,7 @@
 const fs = require("fs");
 const FUNDS = [
   ["franklin", "B15287"], ["schroder", "B2M1AXH"], ["gaf", "B09091"], ["janus", "B22012"], ["pimco", "B460127"],
-  ["sgehi", "B09324"], ["tw50", "A1mZHrw"], ["twhdlv", "A05189"], ["leaders", "A05158"], ["yuantami", "A05219"],
+  ["sgehi", "B09324"], ["tw50", "A1mZHrw"], ["twhdlv", "A05189"], ["leaders", "A05158"], ["yuantami", "A05219"], ["allianz", "B20074"],
 ];
 const day = t => new Date((t + 8 * 3600) * 1000).toISOString().slice(0, 10);
 const load = f => JSON.parse(fs.readFileSync("raw/" + f + ".json"));

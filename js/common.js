@@ -31,7 +31,7 @@ function money(aum, cur) {
 }
 
 // 不同基金對同一發行人的寫法不同，統一後才能合併計算
-const ALIAS = { "GNMA 房貸債": "美國機構房貸債", "機構房貸債": "美國機構房貸債", "Kinder Morgan（債）": "Kinder Morgan", "American Express（債）": "American Express", "緯穎（可轉債）": "緯穎" };
+const ALIAS = { "GNMA 房貸債": "美國機構房貸債", "機構房貸債": "美國機構房貸債", "Kinder Morgan（債）": "Kinder Morgan", "American Express（債）": "American Express", "緯穎（可轉債）": "緯穎", "Alphabet（債）": "Alphabet" };
 const issuer = k => ALIAS[k] || k;
 
 // 國家／地區分類不一（有國家別也有 Morningstar 區域），合併成同一組類別
@@ -49,7 +49,7 @@ function headline(f) {
   const s = f.per.si;
   return { label: `成立 ${s.months} 個月累積`, short: `成立 ${s.months} 個月`, ret: s.cum, vol: s.vol, sharpe: null };
 }
-// 第 9、10 檔顏色與前面的色相較接近，折線另加虛線區分
+// 第 9 檔以後顏色與前面的色相較接近，折線另加虛線區分
 const dash = f => f.no >= 9 ? [6, 4] : [];
 
 // 資料截止日（由 data.js 的 AS_OF 提供）
@@ -135,7 +135,7 @@ function renderChrome(active) {
   ];
   document.getElementById("site-header").innerHTML = `
     <div class="wrap header-inner">
-      <a class="brand" href="index.html">📊 十檔基金比較</a>
+      <a class="brand" href="index.html">📊 十一檔基金比較</a>
       <nav>${links.map(([href, label]) =>
         `<a href="${href}" class="${active === href ? "active" : ""}">${label}</a>`).join("")}</nav>
     </div>`;

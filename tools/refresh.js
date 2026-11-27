@@ -22,7 +22,7 @@ const navUrl = id => `https://fund.api.cnyes.com/fund/api/v1/funds/${encodeURICo
 const day = t => new Date((t + 8 * 3600) * 1000).toISOString().slice(0, 10);
 async function divs(id) { const out = []; let p = 1, last = 1; do { const j = await get(`https://fund.api.cnyes.com/fund/api/v1/funds/${encodeURIComponent(id)}/dividend?page=${p}`); last = j.last_page; out.push(...j.data); p++; } while (p <= last); return out; }
 (async () => {
-  const main = { B15287: "B15,287", B2M1AXH: "B2M1AXH", B09091: "B09,091", B22012: "B22,012", B460127: "B460127", B09324: "B09,324", A1mZHrw: "A1mZHrw", A05189: "A05189", A05158: "A05158", A05219: "A05219" };
+  const main = { B15287: "B15,287", B2M1AXH: "B2M1AXH", B09091: "B09,091", B22012: "B22,012", B460127: "B460127", B09324: "B09,324", A1mZHrw: "A1mZHrw", A05189: "A05189", A05158: "A05158", A05219: "A05219", B20074: "B20,074" };
   for (const [file, id] of Object.entries(main)) {
     const o = JSON.parse(fs.readFileSync(`raw/${file}.json`));
     const old = day(o.info.tradeDate[0]);

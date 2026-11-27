@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>質押借款試算｜十檔基金比較</title>
-  <meta name="description" content="輸入十檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
+  <title>質押借款試算｜十一檔基金比較</title>
+  <meta name="description" content="輸入十一檔基金持有金額與借款，計算加權補倉／平倉維持率、可承受跌幅、可借額度，以及組合的股債比、信評、產業、國家與前二十大持股。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
   <header id="site-header"></header>
@@ -53,13 +53,13 @@
           <table>
             <thead><tr><th>借貸成數組別</th><th>適用基金</th><th>接近補倉水準<span class="sub">將屆通知客戶</span></th><th>補倉通知<span class="sub">通知客戶</span></th><th>平倉通知<span class="sub">處分</span></th></tr></thead>
             <tbody>
-              <tr><td>7 ＜ X ≦ 8 成</td><td style="text-align:left">RR1～RR3（第 1～6、9、10 檔）</td><td><input type="number" id="a3" step="1"> %</td><td><input type="number" id="c3" step="1"> %</td><td><input type="number" id="l3" step="1"> %</td></tr>
+              <tr><td>7 ＜ X ≦ 8 成</td><td style="text-align:left">RR1～RR3（第 1～6、9～11 檔）</td><td><input type="number" id="a3" step="1"> %</td><td><input type="number" id="c3" step="1"> %</td><td><input type="number" id="l3" step="1"> %</td></tr>
               <tr><td>6 ＜ X ≦ 7 成</td><td style="text-align:left">RR4 以上（第 7、8 檔）</td><td><input type="number" id="a4" step="1"> %</td><td><input type="number" id="c4" step="1"> %</td><td><input type="number" id="l4" step="1"> %</td></tr>
             </tbody>
           </table>
         </div>
         <p class="note">表格中的維持率皆為「低於」該數值時觸發。RR3、RR4 各半時，加權後為接近補倉 131%、補倉 125%、平倉 115%。</p>
-        <p class="caveat">銀行通知表另有 5 ＜ X ≦ 6 成一組（160%／150%／130%），本站十檔不適用故未列入；若銀行調整基金的借貸成數組別，請改用對應數字。</p>
+        <p class="caveat">銀行通知表另有 5 ＜ X ≦ 6 成一組（160%／150%／130%），本站十一檔不適用故未列入；若銀行調整基金的借貸成數組別，請改用對應數字。</p>
       </details>
     </section>
 
@@ -72,7 +72,7 @@
         <div id="gauge"></div>
       </div>
       <div class="table-scroll" style="margin-top:14px"><table id="drop-table"></table></div>
-      <p class="note">「全部資產同步下跌」假設十檔一起跌同樣比例；「只有匯率下跌」假設基金原幣淨值不變，只有美元計價基金（第 1～6 檔）因新台幣升值而縮水。</p>
+      <p class="note">「全部資產同步下跌」假設十一檔一起跌同樣比例；「只有匯率下跌」假設基金原幣淨值不變，只有美元計價基金（第 1～6、11 檔）因新台幣升值而縮水。</p>
       <ul class="caveat">
         <li>實際上各基金跌幅不同：台股 ETF 連結（RR4）波動遠大於其他基金，若台股單獨重挫，RR4 占比下降會讓加權門檻也跟著下降，實際跌幅門檻會與表中不同。可用下方情境試算或改輸入市值來模擬。</li>
         <li>元大全球優質龍頭平衡、元大優質收益成長多重資產雖為新台幣計價，但資產多在海外，新台幣升值時淨值同樣會下跌；本表「只有匯率下跌」未計入這部分，會略為高估可承受的匯率跌幅。</li>
@@ -103,13 +103,13 @@
         <div class="legend"><span><i style="background:var(--ok-bg)"></i>✓ 正常</span><span><i style="background:var(--warn-bg)"></i>◐ 接近補倉</span><span><i style="background:var(--call-bg)"></i>⚠ 補倉通知</span><span><i style="background:var(--liq-bg)"></i>✕ 平倉通知</span></div>
         <div class="table-scroll" style="box-shadow:none"><table id="grid" class="matrix"></table></div>
         <p class="note">表內數字為該情境下的維持率；粗框為目前拉吧所在位置附近的格子。</p>
-        <p class="caveat">資產虧損與匯率虧損以相乘方式合併（例如資產 −10%、匯率 −5%，美元基金合計約 −14.5%）；資產虧損假設十檔同幅度下跌。</p>
+        <p class="caveat">資產虧損與匯率虧損以相乘方式合併（例如資產 −10%、匯率 −5%，美元基金合計約 −14.5%）；資產虧損假設十一檔同幅度下跌。</p>
       </div>
     </section>
 
     <section id="income">
       <h2>4. 預期收益與借款利息</h2>
-      <p class="lead">本站十檔都是累積型、不配息，沒有現金配息；這裡的「預期收益」是以預期年報酬推估的淨值增加，借款利息則是實際要付出的現金。</p>
+      <p class="lead">本站十一檔都是累積型、不配息，沒有現金配息；這裡的「預期收益」是以預期年報酬推估的淨值增加，借款利息則是實際要付出的現金。</p>
       <div class="kpi-row" id="income-kpis"></div>
       <div class="panel" style="margin-top:14px"><h3>各基金預期年收益（萬元）</h3><div class="chart-box short"><canvas id="c-income"></canvas></div></div>
       <ul class="caveat">
@@ -153,8 +153,8 @@
   <div id="tip"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="js/data.js?v=11"></script>
-  <script src="js/common.js?v=9"></script>
+  <script src="js/data.js?v=12"></script>
+  <script src="js/common.js?v=10"></script>
   <script src="js/loan.js?v=4"></script>
 </body>
 </html>
